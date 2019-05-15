@@ -1,0 +1,31 @@
+.btnBreak {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 120px;
+}
+
+.btnBreak2 {
+  width: 120px;
+}
+
+.marginTop {
+  margin-top: 5px;
+  margin-left: 20%
+}
+
+.margin {
+  margin-bottom: 10px;
+  margin-top: 10px
+}
+
+.margin2 {
+  margin-top: 10px
+}
+
+.aaa {
+  text-align: right;
+}
+
+body {
+  background-color: #f8f9fa !important;
+}
