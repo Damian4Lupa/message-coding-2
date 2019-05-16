@@ -15,7 +15,13 @@ class Coding extends Component {
             password: false,
             passwordToShort: false,
             message: false,
-            email: false
+            email: false,
+        },
+
+        styles: {
+            password: 'form-control margin center',
+            message: 'form-control margin center',
+            email: 'form-control margin center',
         }
     }
 
@@ -25,6 +31,11 @@ class Coding extends Component {
         message_error: 'The text is too long',
         email_error: 'Check if the mail is correct'
     }
+
+    // passwordInValid: "form-control margin3 center is-invalid",
+    // passwordValid: "form-control margin is-valid",
+
+
 
     handleChange = event => {
 
@@ -53,47 +64,104 @@ class Coding extends Component {
         })
     }
 
-    messageToCode = () => {
-        let message = this.state.message
-        let key = this.state.password.length
-        let codeMessage = ''
 
-        let newMessage = message.toUpperCase().replace(/Ą/g, 'A').replace(/Ć/g, 'C').replace(/Ę/g, 'E').replace(/Ł/g, 'L').replace(/Ń/g, 'N').replace(/Ó/g, 'O').replace(/Ś/g, 'S').replace(/Ż/g, 'Z').replace(/Ź/g, 'Z')
+    // messageToCode = () => {
+    //     let message = this.state.message
+    //     let key = this.state.password.length
+    //     let codeMessage = ''
 
-        codeMessage = newMessage.replace(/[A-Z]/g, imput => String.fromCharCode((imput.charCodeAt(0) - 65 + key) % 26 + 65));
+    //     let newMessage = message.toUpperCase().replace(/Ą/g, 'A').replace(/Ć/g, 'C').replace(/Ę/g, 'E').replace(/Ł/g, 'L').replace(/Ń/g, 'N').replace(/Ó/g, 'O').replace(/Ś/g, 'S').replace(/Ż/g, 'Z').replace(/Ź/g, 'Z')
 
-        this.setState({
-            message: codeMessage
+    //     codeMessage = newMessage.replace(/[A-Z]/g, imput => String.fromCharCode((imput.charCodeAt(0) - 65 + key) % 26 + 65));
+
+    //     this.setState({
+    //         message: codeMessage
+    //     })
+    // }
+
+    // codeToMessage = () => {
+    //     let message = this.state.message
+    //     let key = this.state.password.length - (this.state.password.length * 2)
+    //     let noCodeMessage = ''
+
+    //     noCodeMessage = (message, key) => {
+    //         if (key < 0)
+    //             return noCodeMessage(message, key + 26);
+    //         let output = '';
+    //         for (let i = 0; i < message.length; i++) {
+    //             let c = message[i];
+    //             if (c.match(/[A-Z]/)) {
+    //                 let code = message.charCodeAt(i);
+    //                 if ((code >= 65) && (code <= 90))
+    //                     c = String.fromCharCode(((code - 65 + key) % 26) + 65);
+    //                 else if ((code >= 97) && (code <= 122))
+    //                     c = String.fromCharCode(((code - 97 + key) % 26) + 97);
+    //             }
+    //             output += c
+    //         }
+    //         return output;
+    //     };
+    //     this.setState({
+    //         message: noCodeMessage
+    //     })
+
+    // }
+
+    CodeValidation = () => {
+        //sprawdza tylko to co potrzebne do kodowania
+        let password = false
+        let passwordToShort = false
+        let message = false
+        let correct = false
+
+        if (this.state.password.length > 4) {
+            passwordToShort = true;
+        }
+        if (this.state.password.length <= 25) {
+            password = true;
+        }
+        if (this.state.message.length < 51) {
+            message = true
+        }
+        if (password && passwordToShort && message) {
+            correct = true
+        }
+
+        return ({
+            password,
+            passwordToShort,
+            message,
+            correct
         })
+
     }
 
-    codeToMessage = () => {
-        let message = this.state.message
-        let key = this.state.password.length - (this.state.password.length * 2)
-        let noCodeMessage = ''
 
-        noCodeMessage = (message, key) => {
-            if (key < 0)
-                return noCodeMessage(message, key + 26);
-            let output = '';
-            for (let i = 0; i < message.length; i++) {
-                let c = message[i];
-                if (c.match(/[A-Z]/)) {
-                    let code = message.charCodeAt(i);
-                    if ((code >= 65) && (code <= 90))
-                        c = String.fromCharCode(((code - 65 + key) % 26) + 65);
-                    else if ((code >= 97) && (code <= 122))
-                        c = String.fromCharCode(((code - 97 + key) % 26) + 97);
-                }
-                output += c
-            }
-            return output;
-        };
-        this.setState({
-            message: noCodeMessage
-        })
+    handleCodeMessage = event => {
+
+        const validation = this.CodeValidation()
+
+        if (validation.correct) {
+
+            console.log("tłumaczymy")
+            //kod tłumaczący message
+
+        } else {
+            console.log("Aktualizuję błędy")
+            this.setState({
+                errors: {
+                    password: !validation.password,
+                    passwordToShort: !validation.passwordToShort,
+                    message: !validation.message,
+                },
+
+            })
+        }
+        //zmiana stylu po błędzie 
+
 
     }
+
 
     formValidation = () => {
         let password = false;
@@ -103,8 +171,8 @@ class Coding extends Component {
         let correct = false;
 
         if (this.state.password.length > 0 && this.state.password.length < 4) {
-            password = true;
             passwordToShort = true;
+
         }
         if (this.state.password.length >= 25) {
             password = true;
@@ -126,16 +194,8 @@ class Coding extends Component {
             email,
             correct,
         })
-
-        // if (input.value.length > 0 && input.value.length < 4) {
-        //     document.querySelector('div.keyInfo').textContent = "The key is too short"
-        // } else if ((input.value.length > 4 && input.value.length < 25) || (input.value.length == 0)) {
-        //     document.querySelector('div.keyInfo').textContent = ""
-        // } else if (input.value.length >= 25) {
-        //     document.querySelector('div.keyInfo').textContent = "The key is too long"
-        // }
-
     }
+
 
     handleSubmit = event => {
         event.preventDefault()
@@ -173,71 +233,112 @@ class Coding extends Component {
 
     }
 
-    componentDidUpdate() {
-        if (this.state.message !== '') {
+    checkStyle() {
+
+        if (this.state.errors.password) {
+            console.log("checkstyle wykonane")
+            this.setState({
+                styles: {
+                    password: 'form-control margin3 center is-invalid'
+                }
+            })
             setTimeout(() => {
                 this.setState({
-                    message: ''
+                    styles: {
+                        password: 'form-control margin center'
+                    }
                 })
-            }, 3000)
+            }, 2000)
         }
+
+    }
+
+
+
+
+    componentDidUpdate() {
+        if (this.state.errors.password || this.state.errors.passwordToShort) {
+
+            setTimeout(() => {
+                this.setState({
+                    errors: {
+                        password: false,
+                        passwordToShort: false
+                    }
+                })
+            }, 2000)
+        }
+
     }
 
 
     render() {
+
+        const { password, message, email, passwordToShort } = this.state
+
+
+
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div class="container">
-                    <div class="marginTop">
+            <form onSubmit={this.handleSubmit} noValidate>
+                <div className="container">
+                    <div className="marginTop">
 
 
 
 
-                        <div class="row">
-                            <div class="col col-lg-2 aaa">
-                                <label for="exampleInputPassword1" className="margin">Enter the key:</label>
+                        <div className="row">
+                            <div className="col col-lg-2 right">
+                                <label htmlFor="exampleInputPassword1" className="margin">Enter the key:</label>
                             </div>
 
-                            <div class="col col-md-4">
+                            <div className="col col-md-4 center">
 
-                                <input type="password" class="form-control margin is-valid" id="password" aria-describedby="inputGroupPrepend3" required value={this.state.password} onChange={this.handleChange} />
-                                <div class="invalid-feedback margin2">
-                                    Please choose a username.
+                                <input type="password" className={this.state.styles.password} id="password" aria-describedby="inputGroupPrepend3" required value={this.state.password} onChange={this.handleChange} />
+                                <div className="margin2">
+
+
+                                    {this.state.errors.password && <center>{this.messages.password_error2}</center>}
+
+                                    {this.state.errors.passwordToShort && <center>{this.messages.password_error}</center>}
+
+
                                 </div>
                             </div>
 
-                            <div class="col col-lg-2">
+                            <div className="col col-lg-2">
                             </div>
                         </div>
 
 
-                        <div class="row">
-                            <div class="col col-lg-2 aaa">
-                                <label for="exampleFormControlTextarea1" className="margin">Message:</label>
+                        <div className="row">
+                            <div className="col col-lg-2 right">
+                                <label htmlFor="exampleFormControlTextarea1" className="margin">Message:</label>
                             </div>
 
-                            <div class="col col-md-4">
-                                <textarea class="form-control margin is-valid" id="message" rows="5" aria-describedby="inputGroupPrepend3" required value={this.state.message} onChange={this.handleChange} />
-                                <div class="invalid-feedback margin2">
-                                    Please choose a username.
+                            <div className="col col-md-4">
+                                <textarea className={this.state.styles.message} id="message" rows="5" aria-describedby="inputGroupPrepend3" required value={this.state.message} onChange={this.handleChange} />
+                                <div className="margin2">
+
+                                    {this.state.errors.message && <center>{this.messages.message_error}</center>}
+
                                 </div>
                             </div>
 
 
-                            <div class="col col-lg-2 margin">
+                            <div className="col col-lg-2 margin">
                                 <button
                                     type="button"
-                                    class="btn btn-outline-primary btnBreak2"
-                                    onClick={this.messageToCode}
+                                    className="btn btn-outline-primary btnBreak2"
+                                    onClick={this.handleCodeMessage}
                                 >Encryption</button>
                                 <button
                                     type="button"
-                                    class="btn btn-outline-primary btnBreak"
+                                    className="btn btn-outline-primary btnBreak"
                                     onClick={this.codeToMessage}
                                 >Decryption</button>
                                 <button
                                     type="button"
-                                    class="btn btn-outline-primary btnBreak2"
+                                    className="btn btn-outline-primary btnBreak2"
                                     onClick={this.handleResetAll}
                                 >Reset</button>
                             </div>
@@ -246,21 +347,21 @@ class Coding extends Component {
 
 
 
-                        <div class="row">
-                            <div class="col col-lg-2 aaa">
-                                <label for="exampleInputEmail1" className="margin">E-mail:</label>
+                        <div className="row">
+                            <div className="col col-lg-2 right">
+                                <label htmlFor="exampleInputEmail1" className="margin">E-mail:</label>
                             </div>
 
-                            <div class="col col-md-4">
-                                <input type="email" class="form-control margin is-valid" id="email" aria-describedby="emailHelp" placeholder="Send a message to your friend" value={this.state.email} onChange={this.handleChange} />
+                            <div className="col col-md-4">
+                                <input type="email" className={this.state.styles.email} id="email" aria-describedby="emailHelp" placeholder="Send a message to your friend" value={this.state.email} onChange={this.handleChange} />
 
-                                <div class="invalid-feedback margin2">
-                                    Please choose a username.
+                                <div className="invalid-feedback margin2">
+                                    {this.state.errors.email && this.messages.email_error}
                                 </div>
                             </div>
 
-                            <div class="col col-lg-2">
-                                <button class="btn btn-outline-primary btnBreak2" type="submit">Send</button>
+                            <div className="col col-lg-2 margin">
+                                <button className="btn btn-outline-primary btnBreak2" type="submit">Send</button>
                             </div>
 
                         </div>
