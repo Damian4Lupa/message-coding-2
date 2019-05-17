@@ -2,6 +2,10 @@
 
 This is a new version of my first program. It is based on the React and Bootstrap library. The application uses a variable key to encode messages, validates data. Coding can take place in several stages.
 
+## Look how it looks
+
+https://damian4lupa.github.io/messageCoding-2/
+
 ## Available Scripts
 
 In the project directory, you can run:
