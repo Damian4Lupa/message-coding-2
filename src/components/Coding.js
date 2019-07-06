@@ -252,25 +252,25 @@ class Coding extends Component {
 
     render() {
 
-        let passwordStyle = 'form-control margin center'
-        let messageStyle = 'form-control margin center'
-        let emailStyle = 'form-control margin center'
+        let passwordStyle = 'form-control margin text-center'
+        let messageStyle = 'form-control margin text-center'
+        let emailStyle = 'form-control margin text-center'
         let emailFeedbackStyle = 'invalid-feedback margin2'
 
         if (this.state.errors.passwordToShort || this.state.errors.password) {
-            passwordStyle = 'form-control margin3 center is-invalid'
+            passwordStyle = 'form-control margin3 text-center is-invalid'
         } else {
-            passwordStyle = 'form-control margin center'
+            passwordStyle = 'form-control margin text-center'
         }
         if (this.state.errors.messageToShort || this.state.errors.message) {
-            messageStyle = 'form-control margin3 center is-invalid'
+            messageStyle = 'form-control margin3 text-center is-invalid'
         } else {
-            messageStyle = 'form-control margin center'
+            messageStyle = 'form-control margin text-center'
         }
         if (this.state.errors.email) {
-            emailStyle = 'form-control margin3 center is-invalid'
+            emailStyle = 'form-control margin3 text-center is-invalid'
         } else {
-            emailStyle = 'form-control margin center'
+            emailStyle = 'form-control margin text-center'
         }
         if (this.state.correct) {
             emailFeedbackStyle = 'margin4 sendMessage'
@@ -284,7 +284,7 @@ class Coding extends Component {
                     <div className="marginTop">
 
                         <div className="row">
-                            <div className="col col-lg-2 right">
+                            <div className="col col-lg-2 text-right">
                                 <label htmlFor="exampleInputPassword1" className="margin">Enter the key:</label>
                             </div>
                             <div className="col col-md-4">
@@ -307,7 +307,7 @@ class Coding extends Component {
                         </div>
 
                         <div className="row">
-                            <div className="col col-lg-2 right">
+                            <div className="col col-lg-2 text-right">
                                 <label htmlFor="exampleFormControlTextarea1" className="margin">Message:</label>
                             </div>
                             <div className="col col-md-4">
@@ -347,7 +347,7 @@ class Coding extends Component {
                         </div>
 
                         <div className="row">
-                            <div className="col col-lg-2 right">
+                            <div className="col col-lg-2 text-right">
                                 <label htmlFor="exampleInputEmail1" className="margin">E-mail:</label>
                             </div>
                             <div className="col col-md-4">
@@ -369,7 +369,7 @@ class Coding extends Component {
                             </div>
 
                             <div className="col col-lg-2 margin">
-                                <button className="btn btn-outline-primary btnBreak2" type="submit" onClick={this.handleSendMessage}>Send</button>
+                                <button className="btn btn-outline-primary btnBreak3" type="submit" onClick={this.handleSendMessage}>Send</button>
                             </div>
 
                         </div>

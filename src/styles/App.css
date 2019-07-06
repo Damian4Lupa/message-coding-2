@@ -12,6 +12,10 @@ body {
   width: 120px;
 }
 
+.btnBreak3 {
+  width: 120px;
+}
+
 .marginTop {
   margin-left: 25%
 }
@@ -43,21 +47,299 @@ body {
   margin-top: 1px
 }
 
-.right {
-  text-align: right;
-}
-
-.center {
-  text-align: center
-}
-
 .sendMessage {
   color: green;
   font-size: 15px
 }
 
-@media (min-width: 500px) and (max-width: 990px) {
+@media (min-width: 501px) and (max-width: 990px) {
   .marginTop {
     margin-left: 0;
+  }
+}
+
+@media (min-width: 451px) and (max-width: 500px) {
+  .marginTop {
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .margin {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .text-right {
+    text-align: center !important;
+  }
+
+  .col,
+  .col-lg-2 {
+    flex-basis: auto;
+    padding-right: 9vw;
+    padding-left: 9vw;
+    margin: 0 auto;
+  }
+
+  .btnBreak,
+  .btnBreak2 {
+    width: 82px;
+    margin: 1vw 4.2vw;
+  }
+
+  .btnBreak3 {
+    width: 80px;
+    margin-left: 32vw;
+  }
+
+  .btn {
+    padding: 5px 0px;
+    font-size: 0.85rem;
+  }
+
+  .pt-5,
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mt-5,
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 450px) {
+  .marginTop {
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .margin {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .text-right {
+    text-align: center !important;
+  }
+
+  .col,
+  .col-lg-2 {
+    flex-basis: auto;
+    padding-right: 9vw;
+    padding-left: 9vw;
+    margin: 0 auto;
+  }
+
+  .btnBreak,
+  .btnBreak2 {
+    width: 82px;
+    margin: 1vw 3vw;
+  }
+
+  .btnBreak3 {
+    width: 80px;
+    margin-left: 30vw;
+  }
+
+  .btn {
+    padding: 5px 0px;
+    font-size: 0.85rem;
+  }
+
+  .pt-5,
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mt-5,
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 400px) {
+  .marginTop {
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .margin {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .text-right {
+    text-align: center !important;
+  }
+
+  .col,
+  .col-lg-2 {
+    flex-basis: auto;
+    padding-right: 9vw;
+    padding-left: 9vw;
+    margin: 0 auto;
+  }
+
+  .btnBreak {
+    width: 80px;
+    margin: 1vw 2.5vw;
+  }
+
+  .btnBreak2 {
+    width: 80px;
+    margin: 1vw 2vw;
+  }
+
+  .btnBreak3 {
+    width: 80px;
+    margin-left: 30vw;
+  }
+
+  .btn {
+    padding: 5px 0px;
+    font-size: 0.75rem;
+  }
+
+  .pt-5,
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mt-5,
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 316px) and (max-width: 350px) {
+  .marginTop {
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .margin {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .text-right {
+    text-align: center !important;
+  }
+
+  .col,
+  .col-lg-2 {
+    flex-basis: auto;
+    padding-right: 9vw;
+    padding-left: 9vw;
+    margin: 0 auto;
+  }
+
+  .btnBreak {
+    width: 80px;
+    margin: 1vw 1vw;
+  }
+
+  .btnBreak2 {
+    width: 80px;
+    margin: 1vw;
+  }
+
+  .btnBreak3 {
+    width: 80px;
+    margin-left: 28vw;
+  }
+
+  .btn {
+    padding: 5px 0px;
+    font-size: 0.75rem;
+  }
+
+  .pt-5,
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mt-5,
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 315px) {
+  .marginTop {
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .margin {
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+  }
+
+  .text-right {
+    text-align: center !important;
+  }
+
+  .col,
+  .col-lg-2 {
+    flex-basis: auto;
+    padding-right: 9vw;
+    padding-left: 9vw;
+    margin: 0 auto;
+  }
+
+  .btnBreak {
+    width: 80px;
+    margin: 1vw 1vw;
+  }
+
+  .btnBreak2 {
+    width: 80px;
+  }
+
+  .btnBreak3 {
+    width: 80px;
+    margin-left: 28vw;
+  }
+
+  .btn {
+    padding: 5px 0px;
+    font-size: 0.75rem;
+  }
+
+  .pt-5,
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mt-5,
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 1rem !important;
   }
 }
