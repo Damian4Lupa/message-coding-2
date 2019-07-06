@@ -1,3 +1,7 @@
+body {
+  background-color: #f8f9fa
+}
+
 .btnBreak {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -52,6 +56,8 @@
   font-size: 15px
 }
 
-body {
-  background-color: #f8f9fa !important;
+@media (min-width: 500px) and (max-width: 990px) {
+  .marginTop {
+    margin-left: 0;
+  }
 }
