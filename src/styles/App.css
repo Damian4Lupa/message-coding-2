@@ -63,6 +63,10 @@ body {
     margin-left: 0;
   }
 
+  .mobile {
+    margin: 0 auto;
+  }
+
   h2 {
     font-size: 1.5rem;
   }
@@ -111,11 +115,21 @@ body {
     margin-top: 0rem !important;
     margin-bottom: 1rem !important;
   }
+
+  .marginFooter,
+  .list-inline {
+    margin-top: 5px;
+    font-size: 0.7rem
+  }
 }
 
 @media (min-width: 401px) and (max-width: 450px) {
   .marginTop {
     margin-left: 0;
+  }
+
+  .mobile {
+    margin: 0 auto;
   }
 
   h2 {
@@ -166,6 +180,12 @@ body {
     margin-top: 0rem !important;
     margin-bottom: 1rem !important;
   }
+
+  .marginFooter,
+  .list-inline {
+    margin-top: 5px;
+    font-size: 0.7rem
+  }
 }
 
 @media (min-width: 351px) and (max-width: 400px) {
@@ -201,7 +221,7 @@ body {
 
   .btnBreak2 {
     width: 80px;
-    margin: 1vw 2vw;
+    margin: 1vw 2.5vw;
   }
 
   .btnBreak3 {
@@ -225,11 +245,22 @@ body {
     margin-top: 0rem !important;
     margin-bottom: 1rem !important;
   }
+
+  .marginFooter,
+  .list-inline {
+    margin-top: 5px;
+    font-size: 0.7rem
+  }
 }
 
-@media (min-width: 316px) and (max-width: 350px) {
+@media (min-width: 315px) and (max-width: 350px) {
+
   .marginTop {
     margin-left: 0;
+  }
+
+  .mobile {
+    margin: 0 auto;
   }
 
   h2 {
@@ -284,9 +315,17 @@ body {
     margin-top: 0rem !important;
     margin-bottom: 1rem !important;
   }
+
+  .marginFooter,
+  .list-inline {
+    margin-top: 5px;
+    font-size: 0.7rem
+  }
+
 }
 
 @media (min-width: 300px) and (max-width: 315px) {
+
   .marginTop {
     margin-left: 0;
   }
@@ -341,5 +380,11 @@ body {
   .my-5 {
     margin-top: 0rem !important;
     margin-bottom: 1rem !important;
+  }
+
+  .marginFooter,
+  .list-inline {
+    margin-top: 5px;
+    font-size: 0.7rem
   }
 }

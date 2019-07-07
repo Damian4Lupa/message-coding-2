@@ -368,7 +368,7 @@ class Coding extends Component {
                                 </div>
                             </div>
 
-                            <div className="col col-lg-2 margin">
+                            <div className="col col-lg-2 margin mobile">
                                 <button className="btn btn-outline-primary btnBreak3" type="submit" onClick={this.handleSendMessage}>Send</button>
                             </div>
 
