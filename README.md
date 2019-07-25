@@ -1,6 +1,6 @@
 # Message Coding
 
-This is a new version of my first program. It is based on the React and Bootstrap library. The application uses a variable key to encode messages, validates data. Coding can take place in several stages.
+This is a new version of my first program. The application encodes messages based on a key defined each time by the user. Then, after entering the key and encoded message, it is possible to decode and learn about its original content. The application enables multi-level encoding of messages.
 
 ## Look how it looks
 
