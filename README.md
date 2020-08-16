@@ -4,7 +4,7 @@ This is a new version of my first program. The application encodes messages base
 
 ## Look how it looks
 
-https://damian4lupa.github.io/messageCoding-2/
+https://damian4lupa.github.io/message-coding-2/
 
 ## Available Scripts
 
