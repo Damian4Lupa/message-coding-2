@@ -2,6 +2,10 @@ body {
   background-color: #f8f9fa
 }
 
+h1 {
+  font-size: 1.8rem;
+}
+
 .btnBreak {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -67,7 +71,7 @@ body {
     margin: 0 auto;
   }
 
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 
@@ -132,7 +136,7 @@ body {
     margin: 0 auto;
   }
 
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 
@@ -193,7 +197,7 @@ body {
     margin-left: 0;
   }
 
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 
@@ -263,7 +267,7 @@ body {
     margin: 0 auto;
   }
 
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 
@@ -330,7 +334,7 @@ body {
     margin-left: 0;
   }
 
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 
