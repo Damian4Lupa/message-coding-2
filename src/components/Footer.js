@@ -12,8 +12,8 @@ const Footer = props => {
     }
 
     return (
-        <footer className='my-5 pt-5 text-muted text-center text-small'>
-            <p className={footerStyle} >©2019 TheBestCode Corp.</p>
+        <footer className='mt-5 pt-3 text-muted text-center text-small'>
+            <p className={footerStyle} >©2019 The BestCode Corp.</p>
             <nav id="footer-navigation">
             <ul className="list-inline">
                 <li className="list-inline-item"><a href="#">Privacy</a></li>
