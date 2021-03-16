@@ -5,7 +5,6 @@ import '../styles/App.css';
 import Header from './Header';
 import Coding from './Coding';
 
-
 class App extends Component {
   render() {
     return (
@@ -16,6 +15,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;

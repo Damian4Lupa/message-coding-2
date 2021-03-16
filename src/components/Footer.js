@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const Footer = props => {
 
     let footerStyle = ''
@@ -22,7 +21,6 @@ const Footer = props => {
             </ul>
             </nav>
         </footer>
-
     )
 }
 

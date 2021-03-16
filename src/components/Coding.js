@@ -8,7 +8,6 @@ class Coding extends Component {
         message: '',
         email: '',
         correct: false,
-
         errors: {
             password: false,
             passwordToShort: false,
@@ -28,10 +27,8 @@ class Coding extends Component {
     }
 
     handleChange = event => {
-
         const id = event.target.id
         const value = event.target.value
-
         this.setState({
             [id]: value
         })
@@ -44,7 +41,6 @@ class Coding extends Component {
             email: '',
             correct: false,
             messageSend: '',
-
             errors: {
                 password: false,
                 passwordToShort: false,
@@ -282,7 +278,6 @@ class Coding extends Component {
             <form noValidate>
                 <div className="container">
                     <div className="marginTop">
-
                         <div className="row">
                             <div className="col col-lg-2 text-right">
                                 <label htmlFor="exampleInputPassword1" className="margin">Enter the key:</label>
@@ -322,10 +317,8 @@ class Coding extends Component {
                                     {this.state.errors.message && <center>{this.messages.message_error2}</center>}
 
                                     {this.state.errors.messageToShort && <center>{this.messages.message_error}</center>}
-
                                 </div>
                             </div>
-
 
                             <div className="col col-lg-2 margin">
                                 <button
