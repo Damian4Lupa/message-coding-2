@@ -100,6 +100,7 @@ h1 {
 
   .btnBreak3 {
     width: 80px;
+    margin-top: 1vh;
     margin-left: 32vw;
   }
 
@@ -141,8 +142,8 @@ h1 {
   }
 
   .margin {
-    margin-bottom: 2vh;
-    margin-top: 2vh;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
   }
 
   .text-right {
@@ -160,12 +161,13 @@ h1 {
   .btnBreak,
   .btnBreak2 {
     width: 82px;
-    margin: 1vw 3vw;
+    margin: 1vw 3.7vw;
   }
 
   .btnBreak3 {
     width: 80px;
-    margin-left: 30vw;
+    margin-top: 1vh;
+    margin-left: 31vw;
   }
 
   .btn {
@@ -202,8 +204,8 @@ h1 {
   }
 
   .margin {
-    margin-bottom: 2vh;
-    margin-top: 2vh;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
   }
 
   .text-right {
@@ -220,16 +222,17 @@ h1 {
 
   .btnBreak {
     width: 80px;
-    margin: 1vw 2.5vw;
+    margin: 1vw 3vw;
   }
 
   .btnBreak2 {
     width: 80px;
-    margin: 1vw 2.5vw;
+    margin: 1vw 3vw;
   }
 
   .btnBreak3 {
     width: 80px;
+    margin-top: 1vh;
     margin-left: 30vw;
   }
 
@@ -257,7 +260,7 @@ h1 {
   }
 }
 
-@media (min-width: 315px) and (max-width: 350px) {
+@media (max-width: 361px) {
 
   .marginTop {
     margin-left: 0;
@@ -272,7 +275,7 @@ h1 {
   }
 
   .margin {
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
     margin-top: 2vh;
   }
 
@@ -295,12 +298,13 @@ h1 {
 
   .btnBreak2 {
     width: 80px;
-    margin: 1vw;
+    margin: 1vw 3.3vw;
   }
 
   .btnBreak3 {
     width: 80px;
-    margin-left: 28vw;
+    margin-top: 1vh;
+    margin-left: 30vw;
   }
 
   .btn {
@@ -339,8 +343,8 @@ h1 {
   }
 
   .margin {
-    margin-bottom: 2vh;
-    margin-top: 2vh;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
   }
 
   .text-right {
@@ -366,6 +370,7 @@ h1 {
 
   .btnBreak3 {
     width: 80px;
+    margin-top: 1vh;
     margin-left: 28vw;
   }
 
