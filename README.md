@@ -15,8 +15,10 @@ https://damian4lupa.github.io/message-coding-2/
 
 ## Technologies used:
 
-[![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)]()
-[![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)]()
-[![JavaScript](https://img.shields.io/badge/-JavaScript-yellow?style=flat-square&logo=javascript&logoColor=white)]()
-[![React](https://img.shields.io/badge/-React-61dafb?style=flat-square&logo=react&logoColor=white)]()
-[![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952b3?style=flat-square&logo=Bootstrap&logoColor=white)]()
+<div>
+<img alt="HTML" src="https://img.shields.io/badge/HTML-orange?logo=html5&logoColor=white&style=flat"/>
+<img alt='Sass' src="https://img.shields.io/badge/Sass-pink?logo=sass&logoColor=white&style=flat"/>
+<img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-yellow?logo=javascript&logoColor=white&style=flat"/>
+<img alt="React" src="https://img.shields.io/badge/React-00CCFF?logo=react&logoColor=white&style=flat"/>
+</div>
+

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../styles/normalize.sass";
 import "bootstrap/dist/css/bootstrap.css";
-// import '../styles/App.css';
 import "../styles/style.sass";
 import Header from "./Header";
 import Coding from "./Coding";
