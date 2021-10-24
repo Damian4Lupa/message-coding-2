@@ -275,14 +275,14 @@ class Coding extends Component {
     return (
       <form noValidate>
         <div className="container">
-          <div className="marginTop">
+          <main className="marginTop">
             <div className="row">
-              <div className="col col-lg-2 text-right">
+              <section className="col col-lg-2 text-right">
                 <label htmlFor="exampleInputPassword1" className="margin">
                   Enter the key:
                 </label>
-              </div>
-              <div className="col col-md-4">
+              </section>
+              <section className="col col-md-4">
                 <input
                   type="password"
                   className={passwordStyle}
@@ -301,11 +301,11 @@ class Coding extends Component {
                     <center>{this.messages.password_error}</center>
                   )}
                 </div>
-              </div>
+              </section>
               <div className="col col-lg-2"></div>
             </div>
 
-            <div className="row">
+            <section className="row">
               <div className="col col-lg-2 text-right">
                 <label htmlFor="exampleFormControlTextarea1" className="margin">
                   Message:
@@ -355,9 +355,9 @@ class Coding extends Component {
                   Reset
                 </button>
               </div>
-            </div>
+            </section>
 
-            <div className="row">
+            <section className="row">
               <div className="col col-lg-2 text-right">
                 <label htmlFor="exampleInputEmail1" className="margin">
                   E-mail:
@@ -393,8 +393,8 @@ class Coding extends Component {
                   Send
                 </button>
               </div>
-            </div>
-          </div>
+            </section>
+          </main>
         </div>
         <Footer correct={this.state.correct} />
       </form>
