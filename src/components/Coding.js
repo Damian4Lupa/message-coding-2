@@ -7,12 +7,14 @@ class Coding extends Component {
     message: "",
     email: "",
     correct: false,
+    messageIsCoded: false,
     errors: {
       password: false,
       passwordToShort: false,
       message: false,
       messageToShort: false,
       email: false,
+      messageIsCoded: false,
     },
   };
 
@@ -23,6 +25,7 @@ class Coding extends Component {
     message_error2: "The text is too long",
     email_error: "Check if the mail is correct",
     message_send: "Success! Message was sent",
+    messageIsCoded_error: "the message was not coded",
   };
 
   handleChange = (event) => {
@@ -140,6 +143,9 @@ class Coding extends Component {
 
     if (validation.correct) {
       this.messageToCode();
+      this.setState({
+        messageIsCoded: true
+      })
     } else {
       this.setState({
         errors: {
@@ -172,7 +178,11 @@ class Coding extends Component {
     if (this.state.message.length > 4) {
       messageToShort = true;
     }
-    if (this.state.email.length > 6 && this.state.email.indexOf("@") !== -1) {
+    if (
+      this.state.email.length > 6 &&
+      this.state.email.indexOf("@") !== -1 &&
+      this.state.email.indexOf(".") !== -1
+    ) {
       email = true;
     }
     if (password && passwordToShort && message && messageToShort && email) {
@@ -190,6 +200,16 @@ class Coding extends Component {
   };
 
   handleSendMessage = (event) => {
+    this.ValidationToSendEmail(event);
+
+    if (this.state.correct) {
+      console.log("wiadomość wysłana");
+    }
+
+    //!odpowiada tylko za wysłanie wiadomości
+  };
+
+  ValidationToSendEmail = (event) => {
     event.preventDefault();
 
     const validation = this.SendValidation();
@@ -199,7 +219,7 @@ class Coding extends Component {
         correct: true,
       });
 
-      setTimeout(this.handleResetAll, 2000);
+      setTimeout(this.handleResetAll, 10000);
     } else {
       this.setState({
         errors: {
@@ -214,6 +234,7 @@ class Coding extends Component {
   };
 
   componentDidUpdate() {
+
     if (this.state.errors.password || this.state.errors.passwordToShort) {
       setTimeout(() => {
         this.setState({
@@ -246,6 +267,10 @@ class Coding extends Component {
   }
 
   render() {
+    // console.log("message", this.state.message)
+    // console.log("email", this.state.email)
+    console.log("correct", this.state.correct);
+
     let passwordStyle = "form-control margin text-center";
     let messageStyle = "form-control margin text-center";
     let emailStyle = "form-control margin text-center";
@@ -368,6 +393,7 @@ class Coding extends Component {
                   type="email"
                   className={emailStyle}
                   id="email"
+                  required
                   aria-describedby="emailHelp"
                   placeholder="Send a message to your friend"
                   value={this.state.email}
