@@ -8,6 +8,8 @@ class Coding extends Component {
     email: "",
     correct: false,
     messageIsCoded: false,
+    encryptionClicked: 0,
+    decryptionClicked: 0,
     errors: {
       password: false,
       passwordToShort: false,
@@ -42,13 +44,16 @@ class Coding extends Component {
       message: "",
       email: "",
       correct: false,
-      messageSend: "",
+      messageIsCoded: false,
+      encryptionClicked: 0,
+      decryptionClicked: 0,
       errors: {
         password: false,
         passwordToShort: false,
         message: false,
         messageToShort: false,
         email: false,
+        messageIsCoded: false,
       },
     });
   };
@@ -56,6 +61,7 @@ class Coding extends Component {
   messageToCode = () => {
     let key = this.state.password.length;
     let message = this.state.message;
+    let encryptionClicked = this.state.encryptionClicked;
 
     let newMessage = message
       .toUpperCase()
@@ -75,12 +81,14 @@ class Coding extends Component {
 
     this.setState({
       message: codeMessage,
+      encryptionClicked: encryptionClicked + 1,
     });
   };
 
   handleCodeToMessage = () => {
     let key = this.state.password.length - this.state.password.length * 2;
     let message = this.state.message;
+    let decryptionClicked = this.state.decryptionClicked;
 
     const noCodeMessage = (message, key) => {
       if (key < 0) return noCodeMessage(message, key + 26);
@@ -103,6 +111,7 @@ class Coding extends Component {
 
     this.setState({
       message: codeToMessage,
+      decryptionClicked: decryptionClicked + 1,
     });
   };
 
@@ -144,8 +153,8 @@ class Coding extends Component {
     if (validation.correct) {
       this.messageToCode();
       this.setState({
-        messageIsCoded: true
-      })
+        messageIsCoded: true,
+      });
     } else {
       this.setState({
         errors: {
@@ -233,6 +242,27 @@ class Coding extends Component {
     }
   };
 
+  messageIsCodedValidation = () => {
+    let encryptionClicked = this.state.encryptionClicked;
+    let decryptionClicked = this.state.decryptionClicked;
+
+    if (encryptionClicked !== decryptionClicked) {
+      this.setState({
+        messageIsCoded: true,
+        errors: {
+          messageIsCoded: false,
+        },
+      });
+    } else {
+      this.setState({
+        messageIsCoded: false,
+        errors: {
+          messageIsCoded: true,
+        },
+      });
+    }
+  };
+
   componentDidUpdate() {
 
     if (this.state.errors.password || this.state.errors.passwordToShort) {
@@ -268,8 +298,9 @@ class Coding extends Component {
 
   render() {
     // console.log("message", this.state.message)
-    // console.log("email", this.state.email)
-    console.log("correct", this.state.correct);
+    console.log("encryptionClicked", this.state.encryptionClicked);
+    console.log("decryptionClicked", this.state.decryptionClicked);
+    // console.log("correct", this.state.correct);
 
     let passwordStyle = "form-control margin text-center";
     let messageStyle = "form-control margin text-center";
@@ -353,6 +384,10 @@ class Coding extends Component {
 
                   {this.state.errors.messageToShort && (
                     <center>{this.messages.message_error}</center>
+                  )}
+
+                  {this.state.errors.messageIsCoded && (
+                    <center>{this.messages.messageIsCoded_error}</center>
                   )}
                 </div>
               </div>
