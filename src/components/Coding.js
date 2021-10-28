@@ -30,6 +30,48 @@ class Coding extends Component {
     messageIsCoded_error: "the message was not coded",
   };
 
+  componentDidUpdate() {
+    let {
+      password,
+      passwordToShort,
+      message,
+      messageToShort,
+      email,
+      messageIsCoded,
+    } = this.state.errors;
+
+    if (password || passwordToShort) {
+      setTimeout(() => {
+        this.setState({
+          errors: {
+            password: false,
+            passwordToShort: false,
+          },
+        });
+      }, 2000);
+    }
+    if (message || messageToShort || messageIsCoded) {
+      setTimeout(() => {
+        this.setState({
+          errors: {
+            message: false,
+            messageToShort: false,
+            messageIsCoded: false,
+          },
+        });
+      }, 2000);
+    }
+    if (email) {
+      setTimeout(() => {
+        this.setState({
+          errors: {
+            email: false,
+          },
+        });
+      }, 2000);
+    }
+  }
+
   handleChange = (event) => {
     const id = event.target.id;
     const value = event.target.value;
@@ -38,52 +80,29 @@ class Coding extends Component {
     });
   };
 
-  handleResetAll = () => {
-    this.setState({
-      password: "",
-      message: "",
-      email: "",
-      correct: false,
-      messageIsCoded: false,
-      encryptionClicked: 0,
-      decryptionClicked: 0,
-      errors: {
-        password: false,
-        passwordToShort: false,
-        message: false,
-        messageToShort: false,
-        email: false,
-        messageIsCoded: false,
-      },
-    });
+  //! funkcje do przycisków
+  //po kliknięciu Encryption
+  handleCodeMessage = () => {
+    const validation = this.CodeValidation();
+
+    if (validation.correct) {
+      this.messageToCode();
+      this.setState({
+        messageIsCoded: true,
+      });
+    } else {
+      this.setState({
+        errors: {
+          password: !validation.password,
+          passwordToShort: !validation.passwordToShort,
+          message: !validation.message,
+          messageToShort: !validation.messageToShort,
+        },
+      });
+    }
   };
 
-  messageToCode = () => {
-    let { message, encryptionClicked, password } = this.state;
-    let key = password.length;
-
-    let newMessage = message
-      .toUpperCase()
-      .replace(/Ą/g, "A")
-      .replace(/Ć/g, "C")
-      .replace(/Ę/g, "E")
-      .replace(/Ł/g, "L")
-      .replace(/Ń/g, "N")
-      .replace(/Ó/g, "O")
-      .replace(/Ś/g, "S")
-      .replace(/Ż/g, "Z")
-      .replace(/Ź/g, "Z");
-
-    let codeMessage = newMessage.replace(/[A-Z]/g, (imput) =>
-      String.fromCharCode(((imput.charCodeAt(0) - 65 + key) % 26) + 65)
-    );
-
-    this.setState({
-      message: codeMessage,
-      encryptionClicked: encryptionClicked + 1,
-    });
-  };
-
+  //po kliknięciu Decryption
   handleCodeToMessage = () => {
     let { message, decryptionClicked, password } = this.state;
     let key = password.length - password.length * 2;
@@ -110,6 +129,65 @@ class Coding extends Component {
     this.setState({
       message: codeToMessage,
       decryptionClicked: decryptionClicked + 1,
+    });
+  };
+
+  //po kliknięciu reset
+  handleResetAll = () => {
+    this.setState({
+      password: "",
+      message: "",
+      email: "",
+      correct: false,
+      messageIsCoded: false,
+      encryptionClicked: 0,
+      decryptionClicked: 0,
+      errors: {
+        password: false,
+        passwordToShort: false,
+        message: false,
+        messageToShort: false,
+        email: false,
+        messageIsCoded: false,
+      },
+    });
+  };
+
+  // po kliknięciu send
+  handleSendMessage = (event) => {
+    this.ValidationToSendEmail(event);
+
+    if (this.state.correct) {
+      console.log("wiadomość wysłana");
+    }
+
+    //!odpowiada tylko za wysłanie wiadomości
+  };
+
+  //! pozostałe funkcje
+  messageToCode = () => {
+    let { message, encryptionClicked, password } = this.state;
+    let key = password.length;
+
+    let newMessage = message
+      .toUpperCase()
+      .replace(/Ą/g, "A")
+      .replace(/Ć/g, "C")
+      .replace(/Ę/g, "E")
+      .replace(/Ł/g, "L")
+      .replace(/Ń/g, "N")
+      .replace(/Ó/g, "O")
+      .replace(/Ś/g, "S")
+      .replace(/Ż/g, "Z")
+      .replace(/Ź/g, "Z");
+
+    let codeMessage = newMessage.replace(/[A-Z]/g, (imput) =>
+      String.fromCharCode(((imput.charCodeAt(0) - 65 + key) % 26) + 65)
+    );
+
+    this.setState({
+      message: codeMessage,
+      encryptionClicked: encryptionClicked + 1,
     });
   };
 
@@ -143,26 +221,6 @@ class Coding extends Component {
       messageToShort,
       correct,
     };
-  };
-
-  handleCodeMessage = () => {
-    const validation = this.CodeValidation();
-
-    if (validation.correct) {
-      this.messageToCode();
-      this.setState({
-        messageIsCoded: true,
-      });
-    } else {
-      this.setState({
-        errors: {
-          password: !validation.password,
-          passwordToShort: !validation.passwordToShort,
-          message: !validation.message,
-          messageToShort: !validation.messageToShort,
-        },
-      });
-    }
   };
 
   SendValidation = () => {
@@ -204,17 +262,6 @@ class Coding extends Component {
       email,
       correct,
     };
-  };
-
-  //funkcja po kliknięciu send
-  handleSendMessage = (event) => {
-    this.ValidationToSendEmail(event);
-
-    if (this.state.correct) {
-      console.log("wiadomość wysłana");
-    }
-
-    //!odpowiada tylko za wysłanie wiadomości
   };
 
   ValidationToSendEmail = (event) => {
@@ -261,48 +308,6 @@ class Coding extends Component {
       });
     }
   };
-
-  componentDidUpdate() {
-    let {
-      password,
-      passwordToShort,
-      message,
-      messageToShort,
-      email,
-      messageIsCoded,
-    } = this.state.errors;
-
-    if (password || passwordToShort) {
-      setTimeout(() => {
-        this.setState({
-          errors: {
-            password: false,
-            passwordToShort: false,
-          },
-        });
-      }, 2000);
-    }
-    if (message || messageToShort || messageIsCoded) {
-      setTimeout(() => {
-        this.setState({
-          errors: {
-            message: false,
-            messageToShort: false,
-            messageIsCoded: false,
-          },
-        });
-      }, 2000);
-    }
-    if (email) {
-      setTimeout(() => {
-        this.setState({
-          errors: {
-            email: false,
-          },
-        });
-      }, 2000);
-    }
-  }
 
   render() {
     // console.log("message", this.state.message)
