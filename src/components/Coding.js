@@ -59,9 +59,8 @@ class Coding extends Component {
   };
 
   messageToCode = () => {
-    let key = this.state.password.length;
-    let message = this.state.message;
-    let encryptionClicked = this.state.encryptionClicked;
+    let { message, encryptionClicked, password } = this.state;
+    let key = password.length;
 
     let newMessage = message
       .toUpperCase()
@@ -86,9 +85,8 @@ class Coding extends Component {
   };
 
   handleCodeToMessage = () => {
-    let key = this.state.password.length - this.state.password.length * 2;
-    let message = this.state.message;
-    let decryptionClicked = this.state.decryptionClicked;
+    let { message, decryptionClicked, password } = this.state;
+    let key = password.length - password.length * 2;
 
     const noCodeMessage = (message, key) => {
       if (key < 0) return noCodeMessage(message, key + 26);
@@ -208,6 +206,7 @@ class Coding extends Component {
     };
   };
 
+  //funkcja po kliknięciu send
   handleSendMessage = (event) => {
     this.ValidationToSendEmail(event);
 
@@ -237,14 +236,14 @@ class Coding extends Component {
           message: !validation.message,
           messageToShort: !validation.messageToShort,
           email: !validation.email,
+          messageIsCoded: !validation.messageIsCoded,
         },
       });
     }
   };
 
   messageIsCodedValidation = () => {
-    let encryptionClicked = this.state.encryptionClicked;
-    let decryptionClicked = this.state.decryptionClicked;
+    let { encryptionClicked, decryptionClicked } = this.state;
 
     if (encryptionClicked !== decryptionClicked) {
       this.setState({
@@ -264,8 +263,16 @@ class Coding extends Component {
   };
 
   componentDidUpdate() {
+    let {
+      password,
+      passwordToShort,
+      message,
+      messageToShort,
+      email,
+      messageIsCoded,
+    } = this.state.errors;
 
-    if (this.state.errors.password || this.state.errors.passwordToShort) {
+    if (password || passwordToShort) {
       setTimeout(() => {
         this.setState({
           errors: {
@@ -275,17 +282,18 @@ class Coding extends Component {
         });
       }, 2000);
     }
-    if (this.state.errors.message || this.state.errors.messageToShort) {
+    if (message || messageToShort || messageIsCoded) {
       setTimeout(() => {
         this.setState({
           errors: {
             message: false,
             messageToShort: false,
+            messageIsCoded: false,
           },
         });
       }, 2000);
     }
-    if (this.state.errors.email) {
+    if (email) {
       setTimeout(() => {
         this.setState({
           errors: {
