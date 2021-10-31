@@ -170,6 +170,20 @@ class Coding extends Component {
     });
   };
 
+  handleCheckbox = () => {
+    let { checkbox } = this.state;
+
+    if (checkbox) {
+      this.setState({
+        checkbox: false,
+      });
+    } else {
+      this.setState({
+        checkbox: true,
+      });
+    }
+  };
+
   //! pozostałe
   //kodowanie wiadomości
   codeMessage = () => {
@@ -510,6 +524,19 @@ class Coding extends Component {
                 <div className={emailFeedbackStyle}>
                   {emailIsInvalid}
                   {messageSend}
+                </div>
+
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="checkbox"
+                    required
+                    onChange={this.handleCheckbox}
+                  />
+                  <label class="form-check-label" for="checkbox">
+                    I'm not a robot
+                  </label>
                 </div>
               </div>
 
