@@ -40,6 +40,8 @@ class Coding extends Component {
     messageSend: "Success! Message was sent",
   };
 
+  //każda funkcja walidacji zmienia walidację i błędy
+
   componentDidUpdate(prevProps, prevState) {
     let {
       errorPasswordTooShort,
@@ -53,6 +55,7 @@ class Coding extends Component {
       message,
       email,
       checkbox,
+      showValidationErrors,
     } = this.state;
 
     if (prevState.password !== password) {
@@ -71,30 +74,38 @@ class Coding extends Component {
       this.checkboxValidation();
     }
 
-    if (errorPasswordTooShort || errorPasswordTooLong) {
+    if (showValidationErrors) {
       setTimeout(() => {
         this.setState({
-          errorPasswordTooShort: false,
-          errorPasswordTooLong: false,
+          showValidationErrors: false,
         });
       }, 2000);
     }
-    if (errorMessageTooShort || errorMessageTooLong || errorMessageNotCoded) {
-      setTimeout(() => {
-        this.setState({
-          errorMessageTooShort: false,
-          errorMessageTooLong: false,
-          errorMessageNotCoded: false,
-        });
-      }, 2000);
-    }
-    if (errorEmailIsInvalid) {
-      setTimeout(() => {
-        this.setState({
-          errorEmailIsInvalid: false,
-        });
-      }, 2000);
-    }
+
+    // if (errorPasswordTooShort || errorPasswordTooLong) {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       errorPasswordTooShort: false,
+    //       errorPasswordTooLong: false,
+    //     });
+    //   }, 2000);
+    // }
+    // if (errorMessageTooShort || errorMessageTooLong || errorMessageNotCoded) {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       errorMessageTooShort: false,
+    //       errorMessageTooLong: false,
+    //       errorMessageNotCoded: false,
+    //     });
+    //   }, 2000);
+    // }
+    // if (errorEmailIsInvalid) {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       errorEmailIsInvalid: false,
+    //     });
+    //   }, 2000);
+    // }
   }
 
   handleChange = (event) => {
@@ -234,7 +245,7 @@ class Coding extends Component {
   };
 
   passwordValidation = () => {
-    let {password} = this.state
+    let { password } = this.state;
     let errorPasswordTooShort = false;
     let errorPasswordTooLong = false;
 
@@ -260,7 +271,7 @@ class Coding extends Component {
   };
 
   messageValidation = () => {
-    let {message} = this.state
+    let { message } = this.state;
     let errorMessageTooShort = false;
     let errorMessageTooLong = false;
 
@@ -336,7 +347,11 @@ class Coding extends Component {
     }
   };
 
-  showValidationErrors = () => {};
+  showValidationErrors = () => {
+    this.setState({
+      showValidationErrors: true,
+    });
+  };
 
   //!stare funkcje
 
@@ -384,6 +399,7 @@ class Coding extends Component {
       password,
       message,
       email,
+      showValidationErrors,
     } = this.state;
 
     let passwordStyle = "form-control margin text-center";
@@ -403,7 +419,10 @@ class Coding extends Component {
       <button
         type="button"
         className="btn btn-outline-primary btnBreak2"
-        onClick={this.handleEncryption}
+        onClick={() => {
+          this.handleEncryption();
+          this.showValidationErrors();
+        }}
       >
         Encryption
       </button>
@@ -446,17 +465,24 @@ class Coding extends Component {
         </button>
       );
 
-    if (errorPasswordTooShort || errorPasswordTooLong) {
+    if (
+      (showValidationErrors && errorPasswordTooShort) ||
+      (showValidationErrors && errorPasswordTooLong)
+    ) {
       passwordStyle = "form-control margin3 text-center is-invalid";
     } else {
       passwordStyle = "form-control margin text-center";
     }
-    if (errorMessageTooShort || errorMessageTooLong || errorMessageNotCoded) {
+    if (
+      (showValidationErrors && errorMessageTooShort) ||
+      (showValidationErrors && errorMessageTooLong) ||
+      (showValidationErrors && errorMessageNotCoded)
+    ) {
       messageStyle = "form-control margin3 text-center is-invalid";
     } else {
       messageStyle = "form-control margin text-center";
     }
-    if (errorEmailIsInvalid) {
+    if (showValidationErrors && errorEmailIsInvalid) {
       emailStyle = "form-control margin3 text-center is-invalid";
     } else {
       emailStyle = "form-control margin text-center";
@@ -467,26 +493,27 @@ class Coding extends Component {
       emailFeedbackStyle = "invalid-feedback margin2";
     }
 
-    let passwordErrorTooShort = errorPasswordTooShort && (
-      <center>{this.messages.errorPasswordTooShort}</center>
-    );
-    let passwordErrorTooLong = errorPasswordTooLong && (
+    let passwordErrorTooShort = showValidationErrors &&
+      errorPasswordTooShort && (
+        <center>{this.messages.errorPasswordTooShort}</center>
+      );
+    let passwordErrorTooLong = showValidationErrors && errorPasswordTooLong && (
       <center>{this.messages.errorPasswordTooLong}</center>
     );
 
-    let messageErrorTooShort = errorMessageTooShort && (
+    let messageErrorTooShort = showValidationErrors && errorMessageTooShort && (
       <center>{this.messages.errorMessageTooShort}</center>
     );
-    let messageErrorTooLong = errorMessageTooLong && (
+    let messageErrorTooLong = showValidationErrors && errorMessageTooLong && (
       <center>{this.messages.errorMessageTooLong}</center>
     );
-    let messageErrorNotCoded = errorMessageNotCoded && (
+    let messageErrorNotCoded = showValidationErrors && errorMessageNotCoded && (
       <center>{this.messages.errorMessageNotCoded}</center>
     );
-    let emailIsInvalid = errorEmailIsInvalid && (
+    let emailIsInvalid = showValidationErrors && errorEmailIsInvalid && (
       <center>{this.messages.errorEmailIsInvalid}</center>
     );
-    let checkboxError = errorcheckbox && (
+    let checkboxError = showValidationErrors && errorcheckbox && (
       <center>{this.messages.errorcheckbox}</center>
     );
 
