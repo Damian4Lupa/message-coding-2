@@ -15,8 +15,7 @@ class Coding extends Component {
     messageValidation: false,
     codingValidation: false,
     emailValidation: false,
-
-    allCorrectValidation: false,
+    allValidation: false,
 
     showValidationErrors: false,
 
@@ -25,8 +24,9 @@ class Coding extends Component {
     errorMessageTooShort: true,
     errorMessageTooLong: false,
     errorMessageNotCoded: true,
-    errorEmailIsInvalid: true,
-    errorcheckbox: true,
+    errorEmailIsInvalid: false,
+    errorcheckbox: false,
+    showMessageWasSent: false,
   };
 
   messages = {
@@ -40,22 +40,19 @@ class Coding extends Component {
     messageSend: "Success! Message was sent",
   };
 
-  //każda funkcja walidacji zmienia walidację i błędy
-
   componentDidUpdate(prevProps, prevState) {
     let {
-      errorPasswordTooShort,
-      errorPasswordTooLong,
-      errorMessageTooShort,
-      errorMessageTooLong,
-      errorMessageNotCoded,
-      errorEmailIsInvalid,
       encryptionClicked,
       password,
       message,
       email,
       checkbox,
       showValidationErrors,
+      passwordValidation,
+      messageValidation,
+      codingValidation,
+      emailValidation,
+      showMessageWasSent
     } = this.state;
 
     if (prevState.password !== password) {
@@ -73,39 +70,24 @@ class Coding extends Component {
     if (prevState.checkbox !== checkbox) {
       this.checkboxValidation();
     }
+    if (
+      prevState.passwordValidation !== passwordValidation ||
+      prevState.messageValidation !== messageValidation ||
+      prevState.codingValidation !== codingValidation ||
+      prevState.emailValidation !== emailValidation ||
+      prevState.checkbox !== checkbox
+    ) {
+      this.allValidation();
+    }
 
-    if (showValidationErrors) {
+    if (showValidationErrors || showMessageWasSent) {
       setTimeout(() => {
         this.setState({
           showValidationErrors: false,
+          showMessageWasSent: false
         });
-      }, 2000);
+      }, 4000);
     }
-
-    // if (errorPasswordTooShort || errorPasswordTooLong) {
-    //   setTimeout(() => {
-    //     this.setState({
-    //       errorPasswordTooShort: false,
-    //       errorPasswordTooLong: false,
-    //     });
-    //   }, 2000);
-    // }
-    // if (errorMessageTooShort || errorMessageTooLong || errorMessageNotCoded) {
-    //   setTimeout(() => {
-    //     this.setState({
-    //       errorMessageTooShort: false,
-    //       errorMessageTooLong: false,
-    //       errorMessageNotCoded: false,
-    //     });
-    //   }, 2000);
-    // }
-    // if (errorEmailIsInvalid) {
-    //   setTimeout(() => {
-    //     this.setState({
-    //       errorEmailIsInvalid: false,
-    //     });
-    //   }, 2000);
-    // }
   }
 
   handleChange = (event) => {
@@ -164,29 +146,41 @@ class Coding extends Component {
       password: "",
       message: "",
       email: "",
-      encryptionClicked: 0,
-      decryptionClicked: 0,
+      checkbox: false,
+      encryptionClicked: false,
+      decryptionClicked: false,
       passwordValidation: false,
       messageValidation: false,
       codingValidation: false,
       emailValidation: false,
-      allCorrectValidation: false,
-      errorPasswordTooShort: false,
+      allValidation: false,
+      showValidationErrors: false,
+      errorPasswordTooShort: true,
       errorPasswordTooLong: false,
-      errorMessageTooShort: false,
+      errorMessageTooShort: true,
       errorMessageTooLong: false,
-      errorMessageNotCoded: false,
+      errorMessageNotCoded: true,
       errorEmailIsInvalid: false,
+      errorcheckbox: false,
+      showMessageWasSent: false,
     });
   };
 
   // po kliknięciu send
   handleSend = (event) => {
-    // this.ValidationToSendEmail(event);
-    // if (this.state.correct) {
-    //   console.log("wiadomość wysłana");
-    // }
-    //!odpowiada tylko za wysłanie wiadomości
+    let { allValidation, message } = this.state;
+    event.preventDefault();
+
+    if (allValidation) {
+      console.log("wiadomość wysłąna");
+      this.setState({
+        showMessageWasSent: true,
+      });
+    } else {
+      this.showValidationErrors();
+    }
+
+    setTimeout(this.handleReset, 4000);
   };
 
   handleEncryptionClickStatus = () => {
@@ -256,16 +250,18 @@ class Coding extends Component {
       errorPasswordTooLong = true;
     }
 
-    if (errorPasswordTooShort || errorPasswordTooLong) {
-      this.setState({
-        errorPasswordTooShort,
-        errorPasswordTooLong,
-      });
-    }
+    this.setState({
+      errorPasswordTooShort,
+      errorPasswordTooLong,
+    });
 
     if (!errorPasswordTooShort && !errorPasswordTooLong) {
       this.setState({
         passwordValidation: true,
+      });
+    } else {
+      this.setState({
+        passwordValidation: false,
       });
     }
   };
@@ -282,16 +278,18 @@ class Coding extends Component {
       errorMessageTooShort = true;
     }
 
-    if (errorMessageTooShort || errorMessageTooLong) {
-      this.setState({
-        errorMessageTooShort,
-        errorMessageTooLong,
-      });
-    }
+    this.setState({
+      errorMessageTooShort,
+      errorMessageTooLong,
+    });
 
     if (!errorMessageTooShort && !errorMessageTooLong) {
       this.setState({
         messageValidation: true,
+      });
+    } else {
+      this.setState({
+        messageValidation: false,
       });
     }
   };
@@ -353,39 +351,33 @@ class Coding extends Component {
     });
   };
 
-  //!stare funkcje
+  allValidation = () => {
+    let {
+      checkbox,
+      passwordValidation,
+      messageValidation,
+      codingValidation,
+      emailValidation,
+    } = this.state;
 
-  ValidationToSendEmail = (event) => {
-    event.preventDefault();
-
-    const validation = this.SendValidation();
-
-    if (validation.correct) {
+    if (
+      checkbox &&
+      passwordValidation &&
+      messageValidation &&
+      codingValidation &&
+      emailValidation
+    ) {
       this.setState({
-        correct: true,
+        allValidation: true,
       });
-
-      setTimeout(this.handleReset, 10000);
     } else {
       this.setState({
-        errors: {
-          password: !validation.password,
-          passwordToShort: !validation.passwordToShort,
-          message: !validation.message,
-          messageToShort: !validation.messageToShort,
-          email: !validation.email,
-          messageIsCoded: !validation.messageIsCoded,
-        },
+        allValidation: false,
       });
     }
   };
 
   render() {
-    // console.log("message", this.state.message)
-    // console.log("encryptionClicked", this.state.encryptionClicked);
-    // console.log("decryptionClicked", this.state.decryptionClicked);
-    // console.log("correct", this.state.correct);
-
     let {
       errorPasswordTooShort,
       errorPasswordTooLong,
@@ -394,12 +386,13 @@ class Coding extends Component {
       errorMessageNotCoded,
       errorEmailIsInvalid,
       errorcheckbox,
-      allCorrectValidation,
       encryptionClicked,
       password,
       message,
       email,
       showValidationErrors,
+      allValidation,
+      showMessageWasSent,
     } = this.state;
 
     let passwordStyle = "form-control margin text-center";
@@ -487,7 +480,7 @@ class Coding extends Component {
     } else {
       emailStyle = "form-control margin text-center";
     }
-    if (allCorrectValidation) {
+    if (showMessageWasSent) {
       emailFeedbackStyle = "margin4 sendMessage";
     } else {
       emailFeedbackStyle = "invalid-feedback margin2";
@@ -517,7 +510,7 @@ class Coding extends Component {
       <center>{this.messages.errorcheckbox}</center>
     );
 
-    let messageSend = allCorrectValidation && (
+    let messageSend = showMessageWasSent && allValidation && (
       <center>{this.messages.messageSend}</center>
     );
 
@@ -618,7 +611,7 @@ class Coding extends Component {
                 <div className={emailFeedbackStyle}>
                   {/* {emailIsInvalid} */}
                   {checkboxError}
-                  {/* {messageSend} */}
+                  {messageSend}
                 </div>
               </div>
 
@@ -634,7 +627,7 @@ class Coding extends Component {
             </section>
           </main>
         </div>
-        <Footer correct={allCorrectValidation} />
+        <Footer correct={showMessageWasSent} />
       </form>
     );
   }
