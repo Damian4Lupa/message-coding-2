@@ -6,69 +6,87 @@ class Coding extends Component {
     password: "",
     message: "",
     email: "",
-    correct: false,
-    messageIsCoded: false,
-    encryptionClicked: 0,
-    decryptionClicked: 0,
-    errors: {
-      password: false,
-      passwordToShort: false,
-      message: false,
-      messageToShort: false,
-      email: false,
-      messageIsCoded: false,
-    },
+    checkbox: false,
+
+    encryptionClicked: false,
+    decryptionClicked: false,
+
+    passwordValidation: false,
+    messageValidation: false,
+    codingValidation: false,
+    emailValidation: false,
+    allValidation: false,
+
+    showValidationErrors: false,
+
+    errorPasswordTooShort: true,
+    errorPasswordTooLong: false,
+    errorMessageTooShort: true,
+    errorMessageTooLong: false,
+    errorMessageNotCoded: true,
+    errorEmailIsInvalid: false,
+    errorcheckbox: false,
+    showMessageWasSent: false,
   };
 
   messages = {
-    password_error: "The key is too short",
-    password_error2: "The key is too long",
-    message_error: "The text is too short",
-    message_error2: "The text is too long",
-    email_error: "Check if the mail is correct",
-    message_send: "Success! Message was sent",
-    messageIsCoded_error: "the message was not coded",
+    errorPasswordTooShort: "The key is too short",
+    errorPasswordTooLong: "The key is too long",
+    errorMessageTooShort: "The text is too short",
+    errorMessageTooLong: "The text is too long",
+    errorMessageNotCoded: "The message was not coded",
+    errorEmailIsInvalid: "Check if the mail is correct",
+    errorcheckbox: "Please confirm",
+    messageSend: "Success! Message was sent",
   };
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     let {
+      encryptionClicked,
       password,
-      passwordToShort,
       message,
-      messageToShort,
       email,
-      messageIsCoded,
-    } = this.state.errors;
+      checkbox,
+      showValidationErrors,
+      passwordValidation,
+      messageValidation,
+      codingValidation,
+      emailValidation,
+      showMessageWasSent
+    } = this.state;
 
-    if (password || passwordToShort) {
-      setTimeout(() => {
-        this.setState({
-          errors: {
-            password: false,
-            passwordToShort: false,
-          },
-        });
-      }, 2000);
+    if (prevState.password !== password) {
+      this.passwordValidation();
     }
-    if (message || messageToShort || messageIsCoded) {
-      setTimeout(() => {
-        this.setState({
-          errors: {
-            message: false,
-            messageToShort: false,
-            messageIsCoded: false,
-          },
-        });
-      }, 2000);
+    if (prevState.message !== message) {
+      this.messageValidation();
     }
-    if (email) {
+    if (prevState.encryptionClicked !== encryptionClicked) {
+      this.codingValidation();
+    }
+    if (prevState.email !== email) {
+      this.emailValidation();
+    }
+    if (prevState.checkbox !== checkbox) {
+      this.checkboxValidation();
+    }
+    if (
+      prevState.passwordValidation !== passwordValidation ||
+      prevState.messageValidation !== messageValidation ||
+      prevState.codingValidation !== codingValidation ||
+      prevState.emailValidation !== emailValidation ||
+      prevState.checkbox !== checkbox
+    ) {
+      this.allValidation();
+    }
+
+    if (showValidationErrors || showMessageWasSent) {
       setTimeout(() => {
         this.setState({
-          errors: {
-            email: false,
-          },
+          showValidationErrors: false,
+          showMessageWasSent: false
         });
-      }, 2000);
+      }, 4000);
     }
   }
 
@@ -82,30 +100,21 @@ class Coding extends Component {
 
   //! funkcje do przycisków
   //po kliknięciu Encryption
-  handleCodeMessage = () => {
-    const validation = this.CodeValidation();
+  handleEncryption = () => {
+    let { passwordValidation, messageValidation } = this.state;
 
-    if (validation.correct) {
-      this.messageToCode();
-      this.setState({
-        messageIsCoded: true,
-      });
-    } else {
-      this.setState({
-        errors: {
-          password: !validation.password,
-          passwordToShort: !validation.passwordToShort,
-          message: !validation.message,
-          messageToShort: !validation.messageToShort,
-        },
-      });
+    if (passwordValidation && messageValidation) {
+      this.codeMessage();
+      this.handleEncryptionClickStatus();
     }
   };
 
   //po kliknięciu Decryption
-  handleCodeToMessage = () => {
-    let { message, decryptionClicked, password } = this.state;
+  handleDecryption = () => {
+    let { message, password } = this.state;
     let key = password.length - password.length * 2;
+
+    this.handleDecryptionClickStatus();
 
     const noCodeMessage = (message, key) => {
       if (key < 0) return noCodeMessage(message, key + 26);
@@ -128,45 +137,84 @@ class Coding extends Component {
 
     this.setState({
       message: codeToMessage,
-      decryptionClicked: decryptionClicked + 1,
     });
   };
 
   //po kliknięciu reset
-  handleResetAll = () => {
+  handleReset = () => {
     this.setState({
       password: "",
       message: "",
       email: "",
-      correct: false,
-      messageIsCoded: false,
-      encryptionClicked: 0,
-      decryptionClicked: 0,
-      errors: {
-        password: false,
-        passwordToShort: false,
-        message: false,
-        messageToShort: false,
-        email: false,
-        messageIsCoded: false,
-      },
+      checkbox: false,
+      encryptionClicked: false,
+      decryptionClicked: false,
+      passwordValidation: false,
+      messageValidation: false,
+      codingValidation: false,
+      emailValidation: false,
+      allValidation: false,
+      showValidationErrors: false,
+      errorPasswordTooShort: true,
+      errorPasswordTooLong: false,
+      errorMessageTooShort: true,
+      errorMessageTooLong: false,
+      errorMessageNotCoded: true,
+      errorEmailIsInvalid: false,
+      errorcheckbox: false,
+      showMessageWasSent: false,
     });
   };
 
   // po kliknięciu send
-  handleSendMessage = (event) => {
-    this.ValidationToSendEmail(event);
+  handleSend = (event) => {
+    let { allValidation, message } = this.state;
+    event.preventDefault();
 
-    if (this.state.correct) {
-      console.log("wiadomość wysłana");
+    if (allValidation) {
+      console.log("wiadomość wysłąna");
+      this.setState({
+        showMessageWasSent: true,
+      });
+    } else {
+      this.showValidationErrors();
     }
 
-    //!odpowiada tylko za wysłanie wiadomości
+    setTimeout(this.handleReset, 4000);
   };
 
-  //! pozostałe funkcje
-  messageToCode = () => {
-    let { message, encryptionClicked, password } = this.state;
+  handleEncryptionClickStatus = () => {
+    this.setState({
+      encryptionClicked: true,
+      decryptionClicked: false,
+    });
+  };
+
+  handleDecryptionClickStatus = () => {
+    this.setState({
+      encryptionClicked: false,
+      decryptionClicked: true,
+    });
+  };
+
+  handleCheckbox = () => {
+    let { checkbox } = this.state;
+
+    if (checkbox) {
+      this.setState({
+        checkbox: false,
+      });
+    } else {
+      this.setState({
+        checkbox: true,
+      });
+    }
+  };
+
+  //! pozostałe
+  //kodowanie wiadomości
+  codeMessage = () => {
+    let { message, password } = this.state;
     let key = password.length;
 
     let newMessage = message
@@ -187,159 +235,284 @@ class Coding extends Component {
 
     this.setState({
       message: codeMessage,
-      encryptionClicked: encryptionClicked + 1,
     });
   };
 
-  CodeValidation = () => {
-    let password = false;
-    let passwordToShort = false;
-    let message = false;
-    let messageToShort = false;
-    let correct = false;
+  passwordValidation = () => {
+    let { password } = this.state;
+    let errorPasswordTooShort = false;
+    let errorPasswordTooLong = false;
 
-    if (this.state.password.length > 4) {
-      passwordToShort = true;
+    if (password.length < 4) {
+      errorPasswordTooShort = true;
     }
-    if (this.state.password.length <= 25) {
-      password = true;
-    }
-    if (this.state.message.length < 51) {
-      message = true;
-    }
-    if (this.state.message.length > 4) {
-      messageToShort = true;
-    }
-    if (password && passwordToShort && message && messageToShort) {
-      correct = true;
+    if (password.length >= 25) {
+      errorPasswordTooLong = true;
     }
 
-    return {
-      password,
-      passwordToShort,
-      message,
-      messageToShort,
-      correct,
-    };
-  };
+    this.setState({
+      errorPasswordTooShort,
+      errorPasswordTooLong,
+    });
 
-  SendValidation = () => {
-    let password = false;
-    let passwordToShort = false;
-    let message = false;
-    let messageToShort = false;
-    let email = false;
-    let correct = false;
-
-    if (this.state.password.length > 4) {
-      passwordToShort = true;
-    }
-    if (this.state.password.length <= 25) {
-      password = true;
-    }
-    if (this.state.message.length < 51) {
-      message = true;
-    }
-    if (this.state.message.length > 4) {
-      messageToShort = true;
-    }
-    if (
-      this.state.email.length > 6 &&
-      this.state.email.indexOf("@") !== -1 &&
-      this.state.email.indexOf(".") !== -1
-    ) {
-      email = true;
-    }
-    if (password && passwordToShort && message && messageToShort && email) {
-      correct = true;
-    }
-
-    return {
-      password,
-      passwordToShort,
-      message,
-      messageToShort,
-      email,
-      correct,
-    };
-  };
-
-  ValidationToSendEmail = (event) => {
-    event.preventDefault();
-
-    const validation = this.SendValidation();
-
-    if (validation.correct) {
+    if (!errorPasswordTooShort && !errorPasswordTooLong) {
       this.setState({
-        correct: true,
+        passwordValidation: true,
       });
-
-      setTimeout(this.handleResetAll, 10000);
     } else {
       this.setState({
-        errors: {
-          password: !validation.password,
-          passwordToShort: !validation.passwordToShort,
-          message: !validation.message,
-          messageToShort: !validation.messageToShort,
-          email: !validation.email,
-          messageIsCoded: !validation.messageIsCoded,
-        },
+        passwordValidation: false,
       });
     }
   };
 
-  messageIsCodedValidation = () => {
+  messageValidation = () => {
+    let { message } = this.state;
+    let errorMessageTooShort = false;
+    let errorMessageTooLong = false;
+
+    if (message.length > 51) {
+      errorMessageTooLong = true;
+    }
+    if (message.length < 4) {
+      errorMessageTooShort = true;
+    }
+
+    this.setState({
+      errorMessageTooShort,
+      errorMessageTooLong,
+    });
+
+    if (!errorMessageTooShort && !errorMessageTooLong) {
+      this.setState({
+        messageValidation: true,
+      });
+    } else {
+      this.setState({
+        messageValidation: false,
+      });
+    }
+  };
+
+  //sprawdza czy jest zakodowana
+  codingValidation = () => {
     let { encryptionClicked, decryptionClicked } = this.state;
 
-    if (encryptionClicked !== decryptionClicked) {
+    if (encryptionClicked && !decryptionClicked) {
       this.setState({
-        messageIsCoded: true,
-        errors: {
-          messageIsCoded: false,
-        },
+        codingValidation: true,
+        errorMessageNotCoded: false,
       });
     } else {
       this.setState({
-        messageIsCoded: false,
-        errors: {
-          messageIsCoded: true,
-        },
+        codingValidation: false,
+        errorMessageNotCoded: true,
+      });
+    }
+  };
+
+  emailValidation = () => {
+    let { email } = this.state;
+
+    if (
+      email.length > 6 &&
+      email.indexOf("@") !== -1 &&
+      email.indexOf(".") !== -1
+    ) {
+      this.setState({
+        emailValidation: true,
+        errorEmailIsInvalid: false,
+      });
+    } else {
+      this.setState({
+        emailValidation: false,
+        errorEmailIsInvalid: true,
+      });
+    }
+  };
+
+  checkboxValidation = () => {
+    let { checkbox } = this.state;
+
+    if (!checkbox) {
+      this.setState({
+        errorcheckbox: true,
+      });
+    } else {
+      this.setState({
+        errorcheckbox: false,
+      });
+    }
+  };
+
+  showValidationErrors = () => {
+    this.setState({
+      showValidationErrors: true,
+    });
+  };
+
+  allValidation = () => {
+    let {
+      checkbox,
+      passwordValidation,
+      messageValidation,
+      codingValidation,
+      emailValidation,
+    } = this.state;
+
+    if (
+      checkbox &&
+      passwordValidation &&
+      messageValidation &&
+      codingValidation &&
+      emailValidation
+    ) {
+      this.setState({
+        allValidation: true,
+      });
+    } else {
+      this.setState({
+        allValidation: false,
       });
     }
   };
 
   render() {
-    // console.log("message", this.state.message)
-    console.log("encryptionClicked", this.state.encryptionClicked);
-    console.log("decryptionClicked", this.state.decryptionClicked);
-    // console.log("correct", this.state.correct);
+    let {
+      errorPasswordTooShort,
+      errorPasswordTooLong,
+      errorMessageTooShort,
+      errorMessageTooLong,
+      errorMessageNotCoded,
+      errorEmailIsInvalid,
+      errorcheckbox,
+      encryptionClicked,
+      password,
+      message,
+      email,
+      showValidationErrors,
+      allValidation,
+      showMessageWasSent,
+    } = this.state;
 
     let passwordStyle = "form-control margin text-center";
     let messageStyle = "form-control margin text-center";
     let emailStyle = "form-control margin text-center";
     let emailFeedbackStyle = "invalid-feedback margin2";
 
-    if (this.state.errors.passwordToShort || this.state.errors.password) {
+    let encryptionButton = encryptionClicked ? (
+      <button
+        type="button"
+        className="btn btn-outline-primary btnBreak2"
+        disabled
+      >
+        Encryption
+      </button>
+    ) : (
+      <button
+        type="button"
+        className="btn btn-outline-primary btnBreak2"
+        onClick={() => {
+          this.handleEncryption();
+          this.showValidationErrors();
+        }}
+      >
+        Encryption
+      </button>
+    );
+
+    let decryptionButton = encryptionClicked ? (
+      <button
+        type="button"
+        className="btn btn-outline-primary btnBreak"
+        onClick={this.handleDecryption}
+      >
+        Decryption
+      </button>
+    ) : (
+      <button
+        type="button"
+        className="btn btn-outline-primary btnBreak"
+        disabled
+      >
+        Decryption
+      </button>
+    );
+
+    let resetButton =
+      password !== "" || message !== "" || email !== "" ? (
+        <button
+          type="button"
+          className="btn btn-outline-primary btnBreak2"
+          onClick={this.handleReset}
+        >
+          Reset
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-outline-primary btnBreak2"
+          disabled
+        >
+          Reset
+        </button>
+      );
+
+    if (
+      (showValidationErrors && errorPasswordTooShort) ||
+      (showValidationErrors && errorPasswordTooLong)
+    ) {
       passwordStyle = "form-control margin3 text-center is-invalid";
     } else {
       passwordStyle = "form-control margin text-center";
     }
-    if (this.state.errors.messageToShort || this.state.errors.message) {
+    if (
+      (showValidationErrors && errorMessageTooShort) ||
+      (showValidationErrors && errorMessageTooLong) ||
+      (showValidationErrors && errorMessageNotCoded)
+    ) {
       messageStyle = "form-control margin3 text-center is-invalid";
     } else {
       messageStyle = "form-control margin text-center";
     }
-    if (this.state.errors.email) {
+    if (showValidationErrors && errorEmailIsInvalid) {
       emailStyle = "form-control margin3 text-center is-invalid";
     } else {
       emailStyle = "form-control margin text-center";
     }
-    if (this.state.correct) {
+    if (showMessageWasSent) {
       emailFeedbackStyle = "margin4 sendMessage";
     } else {
       emailFeedbackStyle = "invalid-feedback margin2";
     }
+
+    let passwordErrorTooShort = showValidationErrors &&
+      errorPasswordTooShort && (
+        <center>{this.messages.errorPasswordTooShort}</center>
+      );
+    let passwordErrorTooLong = showValidationErrors && errorPasswordTooLong && (
+      <center>{this.messages.errorPasswordTooLong}</center>
+    );
+
+    let messageErrorTooShort = showValidationErrors && errorMessageTooShort && (
+      <center>{this.messages.errorMessageTooShort}</center>
+    );
+    let messageErrorTooLong = showValidationErrors && errorMessageTooLong && (
+      <center>{this.messages.errorMessageTooLong}</center>
+    );
+    let messageErrorNotCoded = showValidationErrors && errorMessageNotCoded && (
+      <center>{this.messages.errorMessageNotCoded}</center>
+    );
+    let emailIsInvalid = showValidationErrors && errorEmailIsInvalid && (
+      <center>{this.messages.errorEmailIsInvalid}</center>
+    );
+    let checkboxError = showValidationErrors && errorcheckbox && (
+      <center>{this.messages.errorcheckbox}</center>
+    );
+
+    let messageSend = showMessageWasSent && allValidation && (
+      <center>{this.messages.messageSend}</center>
+    );
 
     return (
       <form noValidate>
@@ -362,13 +535,8 @@ class Coding extends Component {
                   onChange={this.handleChange}
                 />
                 <div className="margin2">
-                  {this.state.errors.password && (
-                    <center>{this.messages.password_error2}</center>
-                  )}
-
-                  {this.state.errors.passwordToShort && (
-                    <center>{this.messages.password_error}</center>
-                  )}
+                  {passwordErrorTooShort}
+                  {passwordErrorTooLong}
                 </div>
               </section>
               <div className="col col-lg-2"></div>
@@ -391,42 +559,16 @@ class Coding extends Component {
                   onChange={this.handleChange}
                 />
                 <div className="margin2">
-                  {this.state.errors.message && (
-                    <center>{this.messages.message_error2}</center>
-                  )}
-
-                  {this.state.errors.messageToShort && (
-                    <center>{this.messages.message_error}</center>
-                  )}
-
-                  {this.state.errors.messageIsCoded && (
-                    <center>{this.messages.messageIsCoded_error}</center>
-                  )}
+                  {messageErrorTooShort}
+                  {messageErrorTooLong}
+                  {messageErrorNotCoded}
                 </div>
               </div>
 
               <div className="col col-lg-2 margin">
-                <button
-                  type="button"
-                  className="btn btn-outline-primary btnBreak2"
-                  onClick={this.handleCodeMessage}
-                >
-                  Encryption
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary btnBreak"
-                  onClick={this.handleCodeToMessage}
-                >
-                  Decryption
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary btnBreak2"
-                  onClick={this.handleResetAll}
-                >
-                  Reset
-                </button>
+                {encryptionButton}
+                {decryptionButton}
+                {resetButton}
               </div>
             </section>
 
@@ -448,13 +590,28 @@ class Coding extends Component {
                   onChange={this.handleChange}
                 />
                 <div className={emailFeedbackStyle}>
-                  {this.state.errors.email && (
-                    <center>{this.messages.email_error}</center>
-                  )}
+                  {emailIsInvalid}
+                  {/* {checkboxError}
+                  {messageSend} */}
+                </div>
 
-                  {this.state.correct && (
-                    <center>{this.messages.message_send}</center>
-                  )}
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="checkbox"
+                    required
+                    onChange={this.handleCheckbox}
+                  />
+                  <label class="form-check-label" for="checkbox">
+                    I'm not a robot
+                  </label>
+                </div>
+
+                <div className={emailFeedbackStyle}>
+                  {/* {emailIsInvalid} */}
+                  {checkboxError}
+                  {messageSend}
                 </div>
               </div>
 
@@ -462,7 +619,7 @@ class Coding extends Component {
                 <button
                   className="btn btn-outline-primary btnBreak3"
                   type="submit"
-                  onClick={this.handleSendMessage}
+                  onClick={this.handleSend}
                 >
                   Send
                 </button>
@@ -470,7 +627,7 @@ class Coding extends Component {
             </section>
           </main>
         </div>
-        <Footer correct={this.state.correct} />
+        <Footer correct={showMessageWasSent} />
       </form>
     );
   }
