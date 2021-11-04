@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { send } from "emailjs-com";
 import Footer from "./Footer";
 
 class Coding extends Component {
@@ -52,7 +53,7 @@ class Coding extends Component {
       messageValidation,
       codingValidation,
       emailValidation,
-      showMessageWasSent
+      showMessageWasSent,
     } = this.state;
 
     if (prevState.password !== password) {
@@ -84,7 +85,7 @@ class Coding extends Component {
       setTimeout(() => {
         this.setState({
           showValidationErrors: false,
-          showMessageWasSent: false
+          showMessageWasSent: false,
         });
       }, 4000);
     }
@@ -98,8 +99,6 @@ class Coding extends Component {
     });
   };
 
-  //! funkcje do przycisków
-  //po kliknięciu Encryption
   handleEncryption = () => {
     let { passwordValidation, messageValidation } = this.state;
 
@@ -109,7 +108,6 @@ class Coding extends Component {
     }
   };
 
-  //po kliknięciu Decryption
   handleDecryption = () => {
     let { message, password } = this.state;
     let key = password.length - password.length * 2;
@@ -140,7 +138,6 @@ class Coding extends Component {
     });
   };
 
-  //po kliknięciu reset
   handleReset = () => {
     this.setState({
       password: "",
@@ -166,16 +163,30 @@ class Coding extends Component {
     });
   };
 
-  // po kliknięciu send
   handleSend = (event) => {
-    let { allValidation, message } = this.state;
+    let { allValidation, message, email } = this.state;
     event.preventDefault();
 
+    let toSend = {
+      message: message,
+      send_to: email,
+    };
+
+    const ServiceID = "service_messagecoding";
+    const TemplateID = "template_50l63q9";
+    const UserID = "user_ODU8rLD61NH0RQu6lmxOx";
+
     if (allValidation) {
-      console.log("wiadomość wysłąna");
       this.setState({
         showMessageWasSent: true,
       });
+      send(ServiceID, TemplateID, toSend, UserID)
+        .then((response) => {
+          console.log("SUCCESS!", response.status, response.text);
+        })
+        .catch((err) => {
+          console.log("FAILED...", err);
+        });
     } else {
       this.showValidationErrors();
     }
@@ -211,8 +222,6 @@ class Coding extends Component {
     }
   };
 
-  //! pozostałe
-  //kodowanie wiadomości
   codeMessage = () => {
     let { message, password } = this.state;
     let key = password.length;
@@ -294,7 +303,6 @@ class Coding extends Component {
     }
   };
 
-  //sprawdza czy jest zakodowana
   codingValidation = () => {
     let { encryptionClicked, decryptionClicked } = this.state;
 
@@ -351,6 +359,12 @@ class Coding extends Component {
     });
   };
 
+  handleChecked = () => {
+    this.setState({
+      checkedCheckbox: true,
+    });
+  };
+
   allValidation = () => {
     let {
       checkbox,
@@ -387,6 +401,7 @@ class Coding extends Component {
       errorEmailIsInvalid,
       errorcheckbox,
       encryptionClicked,
+      checkbox,
       password,
       message,
       email,
@@ -595,15 +610,16 @@ class Coding extends Component {
                   {messageSend} */}
                 </div>
 
-                <div class="form-check">
+                <div className="form-check">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="checkbox"
                     required
                     onChange={this.handleCheckbox}
+                    checked={checkbox}
                   />
-                  <label class="form-check-label" for="checkbox">
+                  <label className="form-check-label" htmlFor="checkbox">
                     I'm not a robot
                   </label>
                 </div>
@@ -619,6 +635,7 @@ class Coding extends Component {
                 <button
                   className="btn btn-outline-primary btnBreak3"
                   type="submit"
+                  value="Send"
                   onClick={this.handleSend}
                 >
                   Send
