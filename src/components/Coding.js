@@ -67,6 +67,7 @@ class Coding extends Component {
     }
     if (prevState.email !== email) {
       this.emailValidation();
+      this.checkboxValidation();
     }
     if (prevState.checkbox !== checkbox) {
       this.checkboxValidation();
@@ -166,6 +167,7 @@ class Coding extends Component {
   handleSend = (event) => {
     let { allValidation, message, email } = this.state;
     event.preventDefault();
+    // this.showValidationErrors();
 
     let toSend = {
       message: message,
@@ -180,6 +182,7 @@ class Coding extends Component {
       this.setState({
         showMessageWasSent: true,
       });
+
       send(ServiceID, TemplateID, toSend, UserID)
         .then((response) => {
           console.log("SUCCESS!", response.status, response.text);
@@ -187,11 +190,10 @@ class Coding extends Component {
         .catch((err) => {
           console.log("FAILED...", err);
         });
+      setTimeout(this.handleReset, 4000);
     } else {
       this.showValidationErrors();
     }
-
-    setTimeout(this.handleReset, 4000);
   };
 
   handleEncryptionClickStatus = () => {
@@ -356,12 +358,6 @@ class Coding extends Component {
   showValidationErrors = () => {
     this.setState({
       showValidationErrors: true,
-    });
-  };
-
-  handleChecked = () => {
-    this.setState({
-      checkedCheckbox: true,
     });
   };
 
@@ -604,11 +600,7 @@ class Coding extends Component {
                   value={this.state.email}
                   onChange={this.handleChange}
                 />
-                <div className={emailFeedbackStyle}>
-                  {emailIsInvalid}
-                  {/* {checkboxError}
-                  {messageSend} */}
-                </div>
+                <div className={emailFeedbackStyle}>{emailIsInvalid}</div>
 
                 <div className="form-check">
                   <input
@@ -623,12 +615,8 @@ class Coding extends Component {
                     I'm not a robot
                   </label>
                 </div>
-
-                <div className={emailFeedbackStyle}>
-                  {/* {emailIsInvalid} */}
-                  {checkboxError}
-                  {messageSend}
-                </div>
+                <div className={emailFeedbackStyle}>{messageSend}</div>
+                <div className="margin2 margin4">{checkboxError}</div>
               </div>
 
               <div className="col col-lg-2 margin mobile">
@@ -644,7 +632,7 @@ class Coding extends Component {
             </section>
           </main>
         </div>
-        <Footer correct={showMessageWasSent} />
+        <Footer correct={showMessageWasSent || (errorcheckbox && showValidationErrors)} />
       </form>
     );
   }
