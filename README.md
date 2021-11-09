@@ -1,6 +1,6 @@
 # Message Coding
 
-This is a new version of my first program. The application encodes messages based on a key defined each time by the user. Then, after entering the key and encoded message, it is possible to decode and learn about its original content. The application enables multi-level encoding of messages.
+This is a new version of my first program. The application encodes messages based on a key specified each time by the user. You can immediately send the coded message by e-mail to another person; for security reasons, send the key another way. Then, after entering the key and the encoded message, it is possible to decrypt and know its original content.
 
 ## See like it looks like
 
