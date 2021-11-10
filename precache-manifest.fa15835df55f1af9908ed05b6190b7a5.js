@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "42bb119d4040f2d2e6e115d71e3f1d0c",
+    "revision": "4e7ce2eb0310d4d06af46c7fc9da5cc2",
     "url": "/message-coding-2/index.html"
   },
   {
-    "revision": "61d7795f1f7b82982901",
+    "revision": "0b1aff56a7be93ef398b",
     "url": "/message-coding-2/static/css/2.22a7d4ef.chunk.css"
   },
   {
-    "revision": "904f646afae5f75f04f8",
-    "url": "/message-coding-2/static/css/main.b426ee1e.chunk.css"
+    "revision": "e68a37aef1668b160eee",
+    "url": "/message-coding-2/static/css/main.991150a5.chunk.css"
   },
   {
-    "revision": "61d7795f1f7b82982901",
-    "url": "/message-coding-2/static/js/2.85cfa503.chunk.js"
+    "revision": "0b1aff56a7be93ef398b",
+    "url": "/message-coding-2/static/js/2.c2530f43.chunk.js"
   },
   {
-    "revision": "904f646afae5f75f04f8",
-    "url": "/message-coding-2/static/js/main.581c3f57.chunk.js"
+    "revision": "e68a37aef1668b160eee",
+    "url": "/message-coding-2/static/js/main.079d32e2.chunk.js"
   },
   {
     "revision": "349af10a3eb39edc22be",
