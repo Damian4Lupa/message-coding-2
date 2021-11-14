@@ -5,66 +5,38 @@ import Footer from "./Footer.js";
 import messages from "../assets/Messages.js";
 
 const Coding = () => {
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [checkbox, setCheckbox] = useState(false);
+  const [password, setPassword] = useState(""); //! 1
+  const [message, setMessage] = useState(""); //! 2
+  const [email, setEmail] = useState(""); //! 3
+  const [checkbox, setCheckbox] = useState(false); //! 4
 
-  const [encryptionClicked, setEncryptionClicked] = useState(false);
-  const [decryptionClicked, setDecryptionClicked] = useState(false);
+  const [encryptionClicked, setEncryptionClicked] = useState(false); //! 5
+  const [decryptionClicked, setDecryptionClicked] = useState(false); //! 6
 
-  const [passwordValidation, setPasswordValidation] = useState(false);
-  const [messageValidation, setMessageValidation] = useState(false);
-  const [emailValidation, setEmailValidation] = useState(false);
-  const [codingValidation, setCodingValidation] = useState(false);
-  const [allValidation, setAllValidation] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState(false); //! 7
+  const [messageValidation, setMessageValidation] = useState(false); //! 8
+  const [emailValidation, setEmailValidation] = useState(false); //! 9
+  const [codingValidation, setCodingValidation] = useState(false); //! 10
+  const [allValidation, setAllValidation] = useState(false); //! 11
 
-  const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [showValidationErrors, setShowValidationErrors] = useState(false); //! 12
 
-  const [errorPasswordTooShort, setErrorPasswordTooShort] = useState(true);
-  const [errorPasswordTooLong, setErrorPasswordTooLong] = useState(false);
-  const [errorMessageTooShort, setErrorMessageTooShort] = useState(true);
-  const [errorMessageTooLong, setErrorMessageTooLong] = useState(false);
-  const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(true);
-  const [errorEmailIsInvalid, setErrorEmailIsInvalid] = useState(false);
-  const [errorcheckbox, setErrorcheckbox] = useState(false);
+  const [errorPasswordTooShort, setErrorPasswordTooShort] = useState(true); //! 13
+  const [errorPasswordTooLong, setErrorPasswordTooLong] = useState(false); //! 14
+  const [errorMessageTooShort, setErrorMessageTooShort] = useState(true); //! 15
+  const [errorMessageTooLong, setErrorMessageTooLong] = useState(false); //! 16
+  const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(true); //! 17
+  const [errorEmailIsInvalid, setErrorEmailIsInvalid] = useState(false); //! 18
+  const [errorcheckbox, setErrorcheckbox] = useState(false); //! 19
 
-  const [showMessageWasSent, setShowMessageWasSent] = useState(false);
-
-  useEffect(() => {
-    handlePasswordValidation();
-    handleMessageValidation();
-    handleCodingValidation();
-    handleEmailValidation();
-    checkboxValidation();
-  }, [password, message, encryptionClicked, email, checkbox]);
-
-  useEffect(() => {
-    handleAllValidation();
-  }, [
-    passwordValidation,
-    messageValidation,
-    codingValidation,
-    emailValidation,
-    checkbox,
-  ]);
-
-  useEffect(() => {
-    if (showValidationErrors || showMessageWasSent) {
-      setTimeout(() => {
-        setShowValidationErrors(false);
-        setShowMessageWasSent(false);
-      }, 4000);
-    }
-  }, [showValidationErrors, showMessageWasSent]);
+  const [showMessageWasSent, setShowMessageWasSent] = useState(false); //! 20
 
   const handleChangePassword = (event) => setPassword(event.target.value);
   const handleChangeMessage = (event) => setMessage(event.target.value);
   const handleChangeEmail = (event) => setEmail(event.target.value);
 
   const handleEncryption = () => {
-    // let { passwordValidation, messageValidation } = this.state;
-
+    handleShowValidationErrors();
     if (passwordValidation && messageValidation) {
       codeMessage();
       handleEncryptionClickStatus();
@@ -72,7 +44,6 @@ const Coding = () => {
   };
 
   const handleDecryption = () => {
-    // let { message, password } = this.state;
     let key = password.length - password.length * 2;
 
     handleDecryptionClickStatus();
@@ -97,10 +68,6 @@ const Coding = () => {
     let codeToMessage = noCodeMessage(message, key);
 
     setMessage(codeToMessage);
-
-    // this.setState({
-    //   message: codeToMessage,
-    // });
   };
 
   const handleReset = () => {
@@ -126,9 +93,9 @@ const Coding = () => {
   };
 
   const handleSend = (event) => {
-    // let { allValidation, message, email } = this.state;
     event.preventDefault();
-    // this.showValidationErrors();
+    let checkShowMessageWasSent = false;
+    handleShowValidationErrors();
 
     let toSend = {
       message: message,
@@ -140,10 +107,7 @@ const Coding = () => {
     const UserID = "user_ODU8rLD61NH0RQu6lmxOx";
 
     if (allValidation) {
-      setShowMessageWasSent(true);
-      // this.setState({
-      //   showMessageWasSent: true,
-      // });
+      checkShowMessageWasSent = true;
 
       send(ServiceID, TemplateID, toSend, UserID)
         .then((response) => {
@@ -156,46 +120,32 @@ const Coding = () => {
     } else {
       handleShowValidationErrors();
     }
+
+    setShowMessageWasSent(checkShowMessageWasSent);
   };
 
   const handleEncryptionClickStatus = () => {
     setEncryptionClicked(true);
     setDecryptionClicked(false);
-
-    // this.setState({
-    //   encryptionClicked: true,
-    //   decryptionClicked: false,
-    // });
   };
 
   const handleDecryptionClickStatus = () => {
     setEncryptionClicked(false);
     setDecryptionClicked(true);
-
-    // this.setState({
-    //   encryptionClicked: false,
-    //   decryptionClicked: true,
-    // });
   };
 
   const handleCheckbox = () => {
-    // let { checkbox } = this.state;
+    let checkCheckbox = false;
 
     if (checkbox) {
-      setCheckbox(false);
-      // this.setState({
-      //   checkbox: false,
-      // });
+      checkCheckbox = false;
     } else {
-      setCheckbox(true);
-      // this.setState({
-      //   checkbox: true,
-      // });
+      checkCheckbox = true;
     }
+    setCheckbox(checkCheckbox);
   };
 
   const codeMessage = () => {
-    // let { message, password } = this.state;
     let key = password.length;
 
     let newMessage = message
@@ -215,156 +165,118 @@ const Coding = () => {
     );
 
     setMessage(codeMessage);
-    // this.setState({
-    //   message: codeMessage,
-    // });
   };
 
   const handlePasswordValidation = () => {
-    // let { password } = this.state;
-    // let errorPasswordTooShort = false;
-    // let errorPasswordTooLong = false;
+    let checkPassword = password.length;
+    let PasswordTooShort = true;
+    let PasswordTooLong = false;
+    let checkPasswordValidation = false;
 
-    if (password.length < 4) {
-      setErrorPasswordTooShort(true);
-      // errorPasswordTooShort = true;
-    }
-    if (password.length >= 25) {
-      setErrorPasswordTooLong(true);
-      // errorPasswordTooLong = true;
+    if (checkPassword < 4) {
+      PasswordTooShort = true;
+    } else {
+      PasswordTooShort = false;
     }
 
-    // this.setState({
-    //   errorPasswordTooShort,
-    //   errorPasswordTooLong,
-    // });
+    if (checkPassword >= 25) {
+      PasswordTooLong = true;
+    } else {
+      PasswordTooLong = false;
+    }
 
     if (!errorPasswordTooShort && !errorPasswordTooLong) {
-      setPasswordValidation(true);
-      // this.setState({
-      //   passwordValidation: true,
-      // });
+      checkPasswordValidation = true;
     } else {
-      setPasswordValidation(false);
-      // this.setState({
-      //   passwordValidation: false,
-      // });
+      checkPasswordValidation = false;
     }
+
+    setErrorPasswordTooShort(PasswordTooShort);
+    setErrorPasswordTooLong(PasswordTooLong);
+    setPasswordValidation(checkPasswordValidation);
   };
 
   const handleMessageValidation = () => {
-    // let { message } = this.state;
-    // let errorMessageTooShort = false;
-    // let errorMessageTooLong = false;
+    let checkErrorMessageTooShort = false;
+    let checkErrorMessageTooLong = false;
+    let checkMessageValidation = false;
+
+    if (message.length < 4) {
+      checkErrorMessageTooShort = true;
+    } else {
+      checkErrorMessageTooShort = false;
+    }
 
     if (message.length > 51) {
-      setErrorMessageTooLong(true);
-      // errorMessageTooLong = true;
+      checkErrorMessageTooLong = true;
+    } else {
+      checkErrorMessageTooLong = false;
     }
-    if (message.length < 4) {
-      setErrorMessageTooShort(true);
-      // errorMessageTooShort = true;
-    }
-
-    // this.setState({
-    //   errorMessageTooShort,
-    //   errorMessageTooLong,
-    // });
 
     if (!errorMessageTooShort && !errorMessageTooLong) {
-      setMessageValidation(true);
-      // this.setState({
-      //   messageValidation: true,
-      // });
+      checkMessageValidation = true;
     } else {
-      setMessageValidation(false);
-      // this.setState({
-      //   messageValidation: false,
-      // });
+      checkMessageValidation = false;
     }
+
+    setErrorMessageTooShort(checkErrorMessageTooShort);
+    setErrorMessageTooLong(checkErrorMessageTooLong);
+    setMessageValidation(checkMessageValidation);
   };
 
   const handleCodingValidation = () => {
-    // let { encryptionClicked, decryptionClicked } = this.state;
+    let checksetCodingValidation = false;
+    let checksetErrorMessageNotCoded = false;
 
     if (encryptionClicked && !decryptionClicked) {
-      setCodingValidation(true);
-      setErrorMessageNotCoded(false);
-
-      // this.setState({
-      //   codingValidation: true,
-      //   errorMessageNotCoded: false,
-      // });
+      checksetCodingValidation = true;
+      checksetErrorMessageNotCoded = false;
     } else {
-      setCodingValidation(false);
-      setErrorMessageNotCoded(true);
-
-      // this.setState({
-      //   codingValidation: false,
-      //   errorMessageNotCoded: true,
-      // });
+      checksetCodingValidation = false;
+      checksetErrorMessageNotCoded = true;
     }
+    setCodingValidation(checksetCodingValidation);
+    setErrorMessageNotCoded(checksetErrorMessageNotCoded);
   };
 
   const handleEmailValidation = () => {
-    // let { email } = this.state;
+    let checkEmailValidation = false;
+    let checkErrorEmailIsInvalid = false;
 
     if (
       email.length > 6 &&
       email.indexOf("@") !== -1 &&
       email.indexOf(".") !== -1
     ) {
-      setEmailValidation(true);
-      setErrorEmailIsInvalid(false);
-
-      // this.setState({
-      //   emailValidation: true,
-      //   errorEmailIsInvalid: false,
-      // });
+      checkEmailValidation = true;
+      checkErrorEmailIsInvalid = false;
     } else {
-      setEmailValidation(false);
-      setErrorEmailIsInvalid(true);
-
-      // this.setState({
-      //   emailValidation: false,
-      //   errorEmailIsInvalid: true,
-      // });
+      checkEmailValidation = false;
+      checkErrorEmailIsInvalid = true;
     }
+
+    setEmailValidation(checkEmailValidation);
+    setErrorEmailIsInvalid(checkErrorEmailIsInvalid);
   };
 
   const checkboxValidation = () => {
-    // let { checkbox } = this.state;
+    let checkErrorcheckbox = false;
 
     if (!checkbox) {
-      setErrorcheckbox(true);
-
-      // this.setState({
-      //   errorcheckbox: true,
-      // });
+      checkErrorcheckbox = true;
     } else {
-      setErrorcheckbox(false);
-      // this.setState({
-      //   errorcheckbox: false,
-      // });
+      checkErrorcheckbox = false;
     }
+
+    setErrorcheckbox(checkErrorcheckbox);
   };
 
   const handleShowValidationErrors = () => {
-    setAllValidation(true);
-
-    // this.setState({
-    //   showValidationErrors: true,
-    // });
+    setShowValidationErrors(true);
   };
 
   const handleAllValidation = () => {
-    // let {
-    //   checkbox,
-    //   passwordValidation,
-    //   messageValidation,
-    //   codingValidation,
-    //   emailValidation,
-    // } = this.state;
+    let checkAllValidation = false;
 
     if (
       checkbox &&
@@ -373,19 +285,40 @@ const Coding = () => {
       codingValidation &&
       emailValidation
     ) {
-      setAllValidation(true);
-
-      // this.setState({
-      //   allValidation: true,
-      // });
+      checkAllValidation = true;
     } else {
-      setAllValidation(false);
-
-      // this.setState({
-      //   allValidation: false,
-      // });
+      checkAllValidation = false;
     }
+
+    setAllValidation(checkAllValidation);
   };
+
+  useEffect(() => {
+    handlePasswordValidation();
+    handleMessageValidation();
+    handleCodingValidation();
+    handleEmailValidation();
+    checkboxValidation();
+  }, [password, message, encryptionClicked, email, checkbox]);
+
+  useEffect(() => {
+    if (showValidationErrors || showMessageWasSent) {
+      setTimeout(() => {
+        setShowValidationErrors(false);
+        setShowMessageWasSent(false);
+      }, 4000);
+    }
+  }, [showValidationErrors, showMessageWasSent]);
+
+  useEffect(() => {
+    handleAllValidation();
+  }, [
+    passwordValidation,
+    messageValidation,
+    codingValidation,
+    emailValidation,
+    checkbox,
+  ]);
 
   let passwordStyle = "form-control margin text-center";
   let messageStyle = "form-control margin text-center";
@@ -404,10 +337,7 @@ const Coding = () => {
     <button
       type="button"
       className="btn btn-outline-primary btnBreak2"
-      onClick={() => {
-        handleEncryption();
-        handleShowValidationErrors();
-      }}
+      onClick={handleEncryption}
     >
       Encryption
     </button>
@@ -506,19 +436,22 @@ const Coding = () => {
       <div className="container">
         <main className="marginTop">
           <div className="row">
+
+
+
             <section className="col col-lg-2 text-right">
-              <label htmlFor="exampleInputPassword1" className="margin">
+              <label htmlFor="passwordInput" className="margin">
                 Enter the key:
               </label>
             </section>
             <section className="col col-md-4">
               <input
+                id="passwordInput"
                 type="password"
                 className={passwordStyle}
-                // aria-describedby="inputGroupPrepend3"
-                required
                 value={password}
                 onChange={handleChangePassword}
+                required
               />
               <div className="margin2">
                 {passwordErrorTooShort}
@@ -526,23 +459,25 @@ const Coding = () => {
               </div>
             </section>
 
+
+
             <div className="col col-lg-2"></div>
           </div>
 
           <section className="row">
             <div className="col col-lg-2 text-right">
-              <label htmlFor="exampleFormControlTextarea1" className="margin">
+              <label htmlFor="messageInput" className="margin">
                 Message:
               </label>
             </div>
             <div className="col col-md-4">
               <textarea
+                id="messageInput"
                 className={messageStyle}
                 rows="5"
-                // aria-describedby="inputGroupPrepend3"
-                required
                 value={message}
                 onChange={handleChangeMessage}
+                required
               />
 
               <div className="margin2">
@@ -561,30 +496,30 @@ const Coding = () => {
 
           <section className="row">
             <div className="col col-lg-2 text-right">
-              <label htmlFor="exampleInputEmail1" className="margin">
+              <label htmlFor="emailInput" className="margin">
                 E-mail:
               </label>
             </div>
             <div className="col col-md-4">
               <input
+                id="emailInput"
                 type="email"
                 className={emailStyle}
-                required
-                // aria-describedby="emailHelp"
                 placeholder="Send a message to your friend"
                 value={email}
                 onChange={handleChangeEmail}
+                required
               />
               <div className={emailFeedbackStyle}>{emailIsInvalid}</div>
 
               <div className="form-check">
                 <input
+                  id="checkbox"
                   type="checkbox"
                   className="form-check-input"
-                  id="Checkbox"
-                  required
                   onChange={handleCheckbox}
                   checked={checkbox}
+                  required
                 />
                 <label className="form-check-label" htmlFor="checkbox">
                   I'm not a robot
