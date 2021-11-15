@@ -1,19 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 import "../styles/normalize.sass";
 import "bootstrap/dist/css/bootstrap.css";
 import "../styles/style.sass";
-import Header from "./Header";
-import Coding from "./Coding";
+import Header from "./Header.jsx";
+import Coding from "./CodingHook.jsx";
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <Header />
-        <Coding />
-      </>
-    );
-  }
-}
+const App = () => {
+  return (
+    <>
+      <Header />
+      <Coding />
+    </>
+  );
+};
 
 export default App;
