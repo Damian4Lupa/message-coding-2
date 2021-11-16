@@ -56,25 +56,18 @@ const Email = ({
   }, [resetAll]);
 
   return (
-    <section className="row">
-      <div className="col col-lg-2 text-right">
-        <label htmlFor="emailInput" className="margin">
-          E-mail:
-        </label>
-      </div>
-      <div className="col col-md-4">
-        <input
-          id="emailInput"
-          type="email"
-          className={emailStyle}
-          placeholder="Send a message to your friend"
-          value={localEmail}
-          onChange={handleChangeEmail}
-          required
-        />
-        <div className="margin2">{emailIsInvalid}</div>
-      </div>
-    </section>
+    <div className="col col-md-4">
+      <input
+        id="emailInput"
+        type="email"
+        className={emailStyle}
+        placeholder="Send a message to your friend"
+        value={localEmail}
+        onChange={handleChangeEmail}
+        required
+      />
+      <div className="margin2">{emailIsInvalid}</div>
+    </div>
   );
 };
 
