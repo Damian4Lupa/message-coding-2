@@ -5,12 +5,11 @@ const Password = ({
   updatePassword,
   updatePasswordValidation,
   showValidationErrors,
+  resetAll,
 }) => {
-  //do wysłania globalnie
   const [localPassword, setlocalPassword] = useState("");
   const [localPasswordValidation, setlocalPasswordValidation] = useState(false);
 
-  // tylko lokalnie
   const [errorPasswordTooShort, setErrorPasswordTooShort] = useState(true);
   const [errorPasswordTooLong, setErrorPasswordTooLong] = useState(false);
 
@@ -69,14 +68,18 @@ const Password = ({
     updatePasswordValidation(localPasswordValidation);
   }, [localPassword]);
 
+  useEffect(() => {
+    setlocalPassword("");
+  }, [resetAll]);
+
   return (
-    <div className="row">
-      <section className="col col-lg-2 text-right">
+    <section className="row">
+      <div className="col col-lg-2 text-right">
         <label htmlFor="passwordInput" className="margin">
           Enter the key:
         </label>
-      </section>
-      <section className="col col-md-4">
+      </div>
+      <div className="col col-md-4">
         <input
           id="passwordInput"
           type="password"
@@ -89,8 +92,8 @@ const Password = ({
           {passwordErrorTooShort}
           {passwordErrorTooLong}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
