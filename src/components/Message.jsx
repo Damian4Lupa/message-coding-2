@@ -7,15 +7,12 @@ const Message = ({
   showValidationErrors,
   errorMessageNotCoded,
   message,
+  resetAll,
 }) => {
-  //globalnie
   const [localMessage, setLocalMessage] = useState(message);
   const [localMessageValidation, setlocalMessageValidation] = useState(false);
-
-  //lokalnie
   const [errorMessageTooShort, setErrorMessageTooShort] = useState(true);
   const [errorMessageTooLong, setErrorMessageTooLong] = useState(false);
-  //   const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(true);
 
   const handleChangeMessage = (event) => setLocalMessage(event.target.value);
 
@@ -73,20 +70,16 @@ const Message = ({
     handleMessageValidation();
     updateMessage(localMessage);
     updateMessageValidation(localMessageValidation);
-    // setLocalMessage(message);
   }, [localMessage]);
 
-//   useEffect(() => {
-//     if (codingValidation) setLocalMessage(message);
-//   }, [message, codingValidation]);
+  useEffect(() => {
+    setLocalMessage("");
+  }, [resetAll]);
 
-  // setLocalMessage(() => {
-  //   if (message != "" && codingValidation) {
-  //     return event.target.value = "";
-  //   } else {
-  //     return event.target.value;
-  //   }
-  // });
+  useEffect(() => {
+    setLocalMessage(message);
+  }, [message]);
+
 
   return (
     <div className="col col-md-4">
