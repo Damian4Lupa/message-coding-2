@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { send } from "emailjs-com";
-
 import Password from "./Password.jsx";
 import Message from "./Message.jsx";
 import Email from "./Email.jsx";
@@ -16,16 +15,13 @@ const Coding = () => {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [checkbox, setCheckbox] = useState(false);
-
   const [encryptionClicked, setEncryptionClicked] = useState(false);
   const [decryptionClicked, setDecryptionClicked] = useState(false);
-
   const [passwordValidation, setPasswordValidation] = useState(false);
   const [messageValidation, setMessageValidation] = useState(false);
   const [emailValidation, setEmailValidation] = useState(false);
   const [codingValidation, setCodingValidation] = useState(false);
   const [allValidation, setAllValidation] = useState(false);
-
   const [showValidationErrors, setShowValidationErrors] = useState(false);
   const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(true);
   const [errorcheckbox, setErrorcheckbox] = useState(false);
@@ -98,7 +94,6 @@ const Coding = () => {
 
   const handleReset = () => {
     setresetAll(true);
-
     setPassword("");
     setMessage("");
     setEmail("");
@@ -262,14 +257,12 @@ const Coding = () => {
           showValidationErrors={showValidationErrors}
           resetAll={resetAll}
         />
-
         <section className="row">
           <div className="col col-lg-2 text-right">
             <label htmlFor="messageInput" className="margin">
               Message:
             </label>
           </div>
-
           <Message
             updateMessage={updateMessage}
             updateMessageValidation={updateMessageValidation}
@@ -279,39 +272,33 @@ const Coding = () => {
             errorMessageNotCoded={errorMessageNotCoded}
             resetAll={resetAll}
           />
-
           <div className="col col-lg-2 margin">
             <EncryptionButton
               encryptionClicked={encryptionClicked}
               handleEncryption={handleEncryption}
             />
-
             <DecryptionButton
               encryptionClicked={encryptionClicked}
               handleDecryption={handleDecryption}
             />
-
             <ResetButton
               resetButtonVisible={resetButtonVisible}
               handleReset={handleReset}
             />
           </div>
         </section>
-
         <section className="row">
           <div className="col col-lg-2 text-right">
             <label htmlFor="emailInput" className="margin">
               E-mail:
             </label>
           </div>
-
           <Email
             updateEmail={updateEmail}
             updateEmailValidation={updateEmailValidation}
             showValidationErrors={showValidationErrors}
             resetAll={resetAll}
           />
-
           <div className="col col-lg-2 margin mobile">
             <SendButton
               password={password}
@@ -321,7 +308,6 @@ const Coding = () => {
             />
           </div>
         </section>
-
         <section className="row">
           <div className="col-2"></div>
           <Checkbox
@@ -333,9 +319,10 @@ const Coding = () => {
           />
         </section>
       </main>
-
       <Footer
-        correct={showMessageWasSent || (errorcheckbox && showValidationErrors)}
+        showMessageWasSent={showMessageWasSent}
+        errorcheckbox={errorcheckbox}
+        showValidationErrors={showValidationErrors}
       />
     </form>
   );

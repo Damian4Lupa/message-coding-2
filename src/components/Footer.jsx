@@ -1,9 +1,9 @@
 import React from "react";
 
-const Footer = (props) => {
+const Footer = ({showMessageWasSent, errorcheckbox, showValidationErrors}) => {
   let footerStyle = "";
 
-  if (props.correct) {
+  if (showMessageWasSent || (errorcheckbox && showValidationErrors)) {
     footerStyle = "mb-1 marginFooter2";
   } else {
     footerStyle = "mb-1 marginFooter";
