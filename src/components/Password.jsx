@@ -9,7 +9,6 @@ const Password = ({
 }) => {
   const [localPassword, setlocalPassword] = useState("");
   const [localPasswordValidation, setlocalPasswordValidation] = useState(false);
-
   const [errorPasswordTooShort, setErrorPasswordTooShort] = useState(true);
   const [errorPasswordTooLong, setErrorPasswordTooLong] = useState(false);
 
@@ -93,6 +92,7 @@ const Password = ({
           {passwordErrorTooLong}
         </div>
       </div>
+      <div className="col col-lg-2 margin"></div>
     </section>
   );
 };

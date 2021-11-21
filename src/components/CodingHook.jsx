@@ -309,7 +309,6 @@ const Coding = () => {
           </div>
         </section>
         <section className="row">
-          <div className="col-2"></div>
           <Checkbox
             updateCheckbox={updateCheckbox}
             showValidationErrors={showValidationErrors}

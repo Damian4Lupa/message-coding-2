@@ -57,23 +57,27 @@ const Checkbox = ({
   }, [resetAll]);
 
   return (
-    <div className="col col-md-4">
-      <div className="form-check">
-        <input
-          id="checkbox"
-          type="checkbox"
-          className="form-check-input"
-          onChange={handleCheckbox}
-          checked={localCheckbox}
-          required
-        />
-        <label className="form-check-label" htmlFor="checkbox">
-          I'm not a robot
-        </label>
+    <>
+      <div className="col col-lg-2"> </div>
+      <div className="col col-lg-4">
+        <div className="form-check">
+          <input
+            id="checkbox"
+            type="checkbox"
+            className="form-check-input"
+            onChange={handleCheckbox}
+            checked={localCheckbox}
+            required
+          />
+          <label className="form-check-label" htmlFor="checkbox">
+            I'm not a robot
+          </label>
+        </div>
+        <div className={emailFeedbackStyle}>{messageSend}</div>
+        <div className="margin2 margin4">{checkboxError}</div>
       </div>
-      <div className={emailFeedbackStyle}>{messageSend}</div>
-      <div className="margin2 margin4">{checkboxError}</div>
-    </div>
+      <div className="col col-lg-2 margin"></div>
+    </>
   );
 };
 
