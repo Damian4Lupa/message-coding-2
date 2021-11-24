@@ -23,7 +23,7 @@ const Coding = () => {
   const [codingValidation, setCodingValidation] = useState(false);
   const [allValidation, setAllValidation] = useState(false);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
-  const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(true);
+  const [errorMessageNotCoded, setErrorMessageNotCoded] = useState(false);
   const [errorcheckbox, setErrorcheckbox] = useState(false);
   const [showMessageWasSent, setShowMessageWasSent] = useState(false);
   const [resetAll, setresetAll] = useState(false);
@@ -66,30 +66,11 @@ const Coding = () => {
   };
 
   const handleDecryption = () => {
-    let key = password.length - password.length * 2;
-
-    handleDecryptionClickStatus();
-
-    const noCodeMessage = (message, key) => {
-      if (key < 0) return noCodeMessage(message, key + 26);
-      let output = "";
-      for (let i = 0; i < message.length; i++) {
-        let c = message[i];
-        if (c.match(/[A-Z]/)) {
-          let code = message.charCodeAt(i);
-          if (code >= 65 && code <= 90)
-            c = String.fromCharCode(((code - 65 + key) % 26) + 65);
-          else if (code >= 97 && code <= 122)
-            c = String.fromCharCode(((code - 97 + key) % 26) + 97);
-        }
-        output += c;
-      }
-      return output;
-    };
-
-    let codeToMessage = noCodeMessage(message, key);
-
-    setMessage(codeToMessage);
+    handleShowValidationErrors();
+    if (passwordValidation && messageValidation) {
+      decodeMessage();
+      handleDecryptionClickStatus();
+    }
   };
 
   const handleReset = () => {
@@ -174,6 +155,45 @@ const Coding = () => {
     setMessage(codeMessage);
   };
 
+  const decodeMessage = () => {
+    let key = password.length - password.length * 2;
+
+    let newMessage = message
+      .toUpperCase()
+      .replace(/Ą/g, "A")
+      .replace(/Ć/g, "C")
+      .replace(/Ę/g, "E")
+      .replace(/Ł/g, "L")
+      .replace(/Ń/g, "N")
+      .replace(/Ó/g, "O")
+      .replace(/Ś/g, "S")
+      .replace(/Ż/g, "Z")
+      .replace(/Ź/g, "Z");
+
+    const noCodeMessage = (message, key) => {
+      if (key < 0) return noCodeMessage(message, key + 26);
+      let output = "";
+      for (let i = 0; i < message.length; i++) {
+        let c = message[i];
+        if (c.match(/[A-Z]/)) {
+          let code = message.charCodeAt(i);
+          if (code >= 65 && code <= 90) {
+            c = String.fromCharCode(((code - 65 + key) % 26) + 65);
+          } else if (code >= 97 && code <= 122) {
+            c = String.fromCharCode(((code - 97 + key) % 26) + 97);
+          }
+        }
+        output += c;
+      }
+      return output;
+    };
+
+    let codeToMessage = noCodeMessage(newMessage, key);
+
+    setMessage(codeToMessage);
+  };
+
+  //! dopracować warunek 
   const handleCodingValidation = () => {
     let checksetCodingValidation = false;
     let checksetErrorMessageNotCoded = false;
@@ -229,14 +249,21 @@ const Coding = () => {
   }, [password, message, encryptionClicked, email, checkbox]);
 
   useEffect(() => {
-    if (showValidationErrors || showMessageWasSent || resetAll) {
+    if (showValidationErrors || showMessageWasSent) {
       setTimeout(() => {
-        setresetAll(false);
         setShowValidationErrors(false);
         setShowMessageWasSent(false);
       }, 4000);
     }
-  }, [showValidationErrors, showMessageWasSent, resetAll]);
+  }, [showValidationErrors, showMessageWasSent]);
+
+  useEffect(() => {
+    if (resetAll) {
+      setTimeout(() => {
+        setresetAll(false);
+      }, 1000);
+    }
+  }, [resetAll]);
 
   useEffect(() => {
     handleAllValidation();
@@ -269,7 +296,6 @@ const Coding = () => {
             showValidationErrors={showValidationErrors}
             errorMessageNotCoded={errorMessageNotCoded}
             message={message}
-            errorMessageNotCoded={errorMessageNotCoded}
             resetAll={resetAll}
           />
           <div className="col col-lg-2 margin">
@@ -278,7 +304,7 @@ const Coding = () => {
               handleEncryption={handleEncryption}
             />
             <DecryptionButton
-              encryptionClicked={encryptionClicked}
+              decryptionClicked={decryptionClicked}
               handleDecryption={handleDecryption}
             />
             <ResetButton
