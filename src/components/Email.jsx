@@ -6,6 +6,7 @@ const Email = ({
   updateEmailValidation,
   showValidationErrors,
   resetAll,
+  decryptionClicked,
 }) => {
   const [localEmail, setLocalEmail] = useState("");
   const [localEmailValidation, setLocalEmailValidation] = useState(false);
@@ -35,15 +36,15 @@ const Email = ({
 
   let emailStyle = "form-control margin text-center";
 
-  if (showValidationErrors && errorEmailIsInvalid) {
+  if (!decryptionClicked && showValidationErrors && errorEmailIsInvalid) {
     emailStyle = "form-control margin3 text-center is-invalid";
   } else {
     emailStyle = "form-control margin text-center";
   }
 
-  let emailIsInvalid = showValidationErrors && errorEmailIsInvalid && (
-    <center>{messages.errorEmailIsInvalid}</center>
-  );
+  let emailIsInvalid = !decryptionClicked &&
+    showValidationErrors &&
+    errorEmailIsInvalid && <center>{messages.errorEmailIsInvalid}</center>;
 
   useEffect(() => {
     handleEmailValidation();
