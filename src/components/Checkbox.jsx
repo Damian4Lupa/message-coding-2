@@ -7,6 +7,7 @@ const Checkbox = ({
   showMessageWasSent,
   allValidation,
   resetAll,
+  decryptionClicked
 }) => {
   const [localCheckbox, setlocalCheckbox] = useState(false);
   const [localErrorcheckbox, setlocalErrorcheckbox] = useState(false);
@@ -34,7 +35,7 @@ const Checkbox = ({
     setlocalCheckbox(checkCheckbox);
   };
 
-  let checkboxError = showValidationErrors && localErrorcheckbox && (
+  let checkboxError = !decryptionClicked && showValidationErrors && localErrorcheckbox && (
     <center>{messages.errorcheckbox}</center>
   );
   let messageSend = showMessageWasSent && allValidation && (
