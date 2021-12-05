@@ -11,7 +11,7 @@ const Footer = ({showMessageWasSent, errorcheckbox, showValidationErrors}) => {
 
   return (
     <footer className="mt-5 pt-3 text-muted text-center text-small">
-      <p className={footerStyle}>©2019 The BestCode Corp.</p>
+      <p className={footerStyle}>©2019-2021 The BestCode Corp.</p>
       <nav id="footer-navigation">
         <ul className="list-inline">
           <li className="list-inline-item">
