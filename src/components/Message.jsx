@@ -74,12 +74,14 @@ const Message = ({
 
   useEffect(() => {
     setLocalMessage("");
+    setlocalMessageValidation(false);
+    setErrorMessageTooShort(true);
+    setErrorMessageTooLong(false);
   }, [resetAll]);
 
   useEffect(() => {
     setLocalMessage(message);
   }, [message]);
-
 
   return (
     <div className="col col-md-4">

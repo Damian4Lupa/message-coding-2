@@ -55,6 +55,7 @@ const Checkbox = ({
 
   useEffect(() => {
     setlocalCheckbox(false);
+    setlocalErrorcheckbox(false)
   }, [resetAll]);
 
   return (

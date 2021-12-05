@@ -54,6 +54,8 @@ const Email = ({
 
   useEffect(() => {
     setLocalEmail("");
+    setLocalEmailValidation(false);
+    setErrorEmailIsInvalid(false);
   }, [resetAll]);
 
   return (

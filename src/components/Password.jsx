@@ -69,6 +69,9 @@ const Password = ({
 
   useEffect(() => {
     setlocalPassword("");
+    setlocalPasswordValidation(false);
+    setErrorPasswordTooShort(true);
+    setErrorPasswordTooLong(false);
   }, [resetAll]);
 
   return (
