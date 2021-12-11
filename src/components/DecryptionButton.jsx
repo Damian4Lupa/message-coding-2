@@ -1,16 +1,16 @@
 import React from "react";
 
-const DecryptionButton = ({ encryptionClicked, handleDecryption }) => {
-  const decryptionButton = encryptionClicked ? (
+const DecryptionButton = ({ decryptionClicked, handleDecryption }) => {
+  const decryptionButton = decryptionClicked ? (
+    <button type="button" className="btn btn-outline-primary btnBreak" disabled>
+      Decryption
+    </button>
+  ) : (
     <button
       type="button"
       className="btn btn-outline-primary btnBreak"
       onClick={handleDecryption}
     >
-      Decryption
-    </button>
-  ) : (
-    <button type="button" className="btn btn-outline-primary btnBreak" disabled>
       Decryption
     </button>
   );
