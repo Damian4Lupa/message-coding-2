@@ -58,23 +58,25 @@ const Coding = () => {
   };
 
   const handleEncryption = () => {
-    handleShowValidationErrors();
     if (passwordValidation && messageValidation) {
       codeMessage();
       handleEncryptionClickStatus();
+    } else {
+      handleShowValidationErrors();
     }
   };
 
   const handleDecryption = () => {
-    handleShowValidationErrors();
+    handleDecryptionClickStatus();
+
     if (passwordValidation && messageValidation) {
       decodeMessage();
-      handleDecryptionClickStatus();
+    } else {
+      handleShowValidationErrors();
     }
   };
 
   const handleReset = () => {
-    setresetAll(true);
     setPassword("");
     setMessage("");
     setEmail("");
@@ -84,11 +86,14 @@ const Coding = () => {
     setPasswordValidation(false);
     setMessageValidation(false);
     setEmailValidation(false);
+    setCodingValidation(false);
     setAllValidation(false);
     setShowValidationErrors(false);
-    setErrorMessageNotCoded(true);
+    setErrorMessageNotCoded(false);
     setErrorcheckbox(false);
     setShowMessageWasSent(false);
+    setresetAll(true);
+    setResetButtonVisible(false);
   };
 
   const handleSend = (event) => {
@@ -193,7 +198,6 @@ const Coding = () => {
     setMessage(codeToMessage);
   };
 
-  //! dopracować warunek 
   const handleCodingValidation = () => {
     let checksetCodingValidation = false;
     let checksetErrorMessageNotCoded = false;
@@ -245,8 +249,11 @@ const Coding = () => {
 
   useEffect(() => {
     handleCodingValidation();
+  }, [encryptionClicked]);
+
+  useEffect(() => {
     resetButtonVisibleValidation();
-  }, [password, message, encryptionClicked, email, checkbox]);
+  }, [password, message, email]);
 
   useEffect(() => {
     if (showValidationErrors || showMessageWasSent) {
@@ -258,11 +265,9 @@ const Coding = () => {
   }, [showValidationErrors, showMessageWasSent]);
 
   useEffect(() => {
-    if (resetAll) {
-      setTimeout(() => {
-        setresetAll(false);
-      }, 1000);
-    }
+    setTimeout(() => {
+      setresetAll(false);
+    }, 1000);
   }, [resetAll]);
 
   useEffect(() => {
@@ -324,6 +329,7 @@ const Coding = () => {
             updateEmailValidation={updateEmailValidation}
             showValidationErrors={showValidationErrors}
             resetAll={resetAll}
+            decryptionClicked={decryptionClicked}
           />
           <div className="col col-lg-2 margin mobile">
             <SendButton
@@ -341,6 +347,7 @@ const Coding = () => {
             showMessageWasSent={showMessageWasSent}
             allValidation={allValidation}
             resetAll={resetAll}
+            decryptionClicked={decryptionClicked}
           />
         </section>
       </main>
