@@ -1,7 +1,7 @@
 {
   "homepage": "https://damian4lupa.github.io/message-coding-2/",
   "name": "messagecoding",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
