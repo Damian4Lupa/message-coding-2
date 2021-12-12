@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4e7ce2eb0310d4d06af46c7fc9da5cc2",
+    "revision": "5ce82e07a3905521db55dc50c325d433",
     "url": "/message-coding-2/index.html"
   },
   {
-    "revision": "0b1aff56a7be93ef398b",
+    "revision": "c9b879ba20bc2b21dc35",
     "url": "/message-coding-2/static/css/2.22a7d4ef.chunk.css"
   },
   {
-    "revision": "e68a37aef1668b160eee",
-    "url": "/message-coding-2/static/css/main.991150a5.chunk.css"
+    "revision": "0f2fd59f61548986f848",
+    "url": "/message-coding-2/static/css/main.e4e7b8a3.chunk.css"
   },
   {
-    "revision": "0b1aff56a7be93ef398b",
-    "url": "/message-coding-2/static/js/2.c2530f43.chunk.js"
+    "revision": "c9b879ba20bc2b21dc35",
+    "url": "/message-coding-2/static/js/2.b4503adf.chunk.js"
   },
   {
-    "revision": "e68a37aef1668b160eee",
-    "url": "/message-coding-2/static/js/main.079d32e2.chunk.js"
+    "revision": "0f2fd59f61548986f848",
+    "url": "/message-coding-2/static/js/main.ee989b00.chunk.js"
   },
   {
     "revision": "349af10a3eb39edc22be",
